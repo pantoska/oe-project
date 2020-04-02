@@ -40,3 +40,4 @@ class AppMain(wx.App):
 
         self.frame.panel.drawPlot(figure)
 
+

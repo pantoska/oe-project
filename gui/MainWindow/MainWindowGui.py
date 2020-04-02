@@ -8,11 +8,7 @@ from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 class MainFrame(wx.Frame):
     def __init__(self, parent, title, minsize=(740, 800)):
         super().__init__(parent=parent, title=title)
-        self.panel = None
         self.SetMinSize(minsize)
-        self.OnInit()
-
-    def OnInit(self):
         self.panel = MainPanel(self)
 
 

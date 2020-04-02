@@ -21,7 +21,7 @@ Naciśnięcie przycisku OK w okienku aktualizuje wartosci.
 Zwracają one indeks elementu na liście.
 Aby wiedzieć, co zostało zaznaczone należy porównywać do stałych
 
-Lista tcyh getterów:
+Lista tych getterów:
 * `getTypeSelection`  
   * `VAL_SELECTIONCHOICE_WHEEL`
   * `VAL_SELECTIONCHOICE_TURNAMENT_SELECTION`
@@ -35,3 +35,15 @@ Lista tcyh getterów:
 * `getElityStartegy`
   * `VAL_ELITY_STRATEGY_PERCENT`
   * `VAL_ELITY_STRATEGY_AMOUNT`
+  
+# Funkcjonowanie
+
+W pliku main jest tylko uruchamianie aplikacji, działanie jest zapisane w App.py.
+
+Dostęp do ustawionych wartości z pliku App.py:
+
+`self.frame.panel.settingswindow`
+
+Akcja wywoływana po naciśnięciu Ok w ustawieniach to:
+
+`SetData` w App
