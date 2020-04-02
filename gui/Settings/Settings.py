@@ -93,17 +93,43 @@ class SettingsControl:
     def getTypeSelection(self):
         return self.values['type_selection']
 
+    def getTypeSelectionName(self):
+        if self.values['type_selection'] == -1:
+            return ''
+        elif self.values['type_selection'] == VAL_SELECTIONCHOICE_WHEEL:
+            return VAL_SELECTIONCHOICE_WHEEL_STR
+        elif self.values['type_selection'] == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION:
+            return VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR
+
     def getDivisionSelection(self):
         return self.values['division_selection']
 
     def getTypeOutBread(self):
         return self.values['type_outbread']
 
+    def getTypeOutBreadName(self):
+        if self.values['type_outbread'] == -1:
+            return ''
+        elif self.values['type_outbread'] == VAL_OUTBREAD_ONE_POINT:
+            return VAL_OUTBREAD_ONE_POINT_STR
+        elif self.values['type_outbread'] == VAL_OUTBREAD_TWO_POINT:
+            return VAL_OUTBREAD_TWO_POINT_STR
+        elif self.values['type_outbread'] == VAL_OUTBREAD_TRIPLE_POINT:
+            return VAL_OUTBREAD_TRIPLE_POINT_STR
+
     def getPropabilityOutBread(self):
         return self.values['propability_outbread']
 
     def getTypeMarginMutation(self):
         return self.values['type_margin_mutation']
+
+    def getTypeMarginMutationName(self):
+        if self.values['type_margin_mutation'] == -1:
+            return ''
+        elif self.values['type_margin_mutation'] == VAl_MARGIN_MUTATION_ONE_POINT:
+            return VAl_MARGIN_MUTATION_ONE_POINT_STR
+        elif self.values['type_margin_mutation'] == VAl_MARGIN_MUTATION_TWO_POINT:
+            return VAl_MARGIN_MUTATION_TWO_POINT_STR
 
     def getPropabilityMarginMutation(self):
         return self.values['propability_margin_mutation']

@@ -74,7 +74,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.Fit()
 
     def drawTitle(self):
-        titleinsidebox = wx.StaticText(self, wx.ID_ANY, SETTINGS_INSIDE_TITLE, )
+        titleinsidebox = wx.StaticText(self, wx.ID_ANY, SETTINGS_INSIDE_TITLE )
         return titleinsidebox
 
     def drawButtons(self):
