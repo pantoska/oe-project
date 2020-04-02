@@ -39,5 +39,6 @@ class AppMain(wx.App):
                                linewidth=0, antialiased=False)
 
         self.frame.panel.drawPlot(figure)
+        self.frame.panel.updateTime(10)
 
 

@@ -20,6 +20,7 @@ class MainPanel(wx.Panel):
         # self.Bind(wx.EVT_BUTTON, self.updateVarsBox)
         self.vars_box_sizer = None
         self.plotBox = None
+        self.timeText = None
 
         self.drawContent()
 
@@ -29,8 +30,28 @@ class MainPanel(wx.Panel):
         main_sizer.Add(self.drawSetVarsBoxTitle(), 0, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawSetVarsBox(), 0, wx.ALL | wx.EXPAND, 10)
 
-        main_sizer.Add(self.drawSettingsButton(), 0, wx.ALL | wx.ALIGN_RIGHT, 10)
+        main_sizer.Add(self.drawFooter(), 0, wx.ALL| wx.EXPAND, 10)
         self.SetSizer(main_sizer)
+
+    def drawFooter(self):
+        sizer = wx.BoxSizer()
+        sizer.Add(self.drawTime(), 1)
+        sizer.AddStretchSpacer()
+        sizer.Add(self.drawSettingsButton(), 0, wx.ALIGN_RIGHT)
+        return sizer
+
+    def drawTime(self):
+        self.timeText = wx.StaticText(self)
+        self.timeText.SetFont(wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.BOLD))
+        self.updateTime(-1)
+        return self.timeText
+
+    def updateTime(self, secounds):
+        txt = "Czas kalkulacji:"
+        if (secounds > 0):
+            txt = txt + " " + str(secounds) + "s"
+
+        self.timeText.SetLabelMarkup("<b>" + txt + "</b>")
 
     def drawSettingsButton(self):
         button = wx.Button(parent=self, label="Ustawienia")
@@ -43,7 +64,7 @@ class MainPanel(wx.Panel):
     def _initDrawPlot(self):
         self.plotBox = wx.BoxSizer()
         box = wx.StaticBox(self)
-        #box.SetBackgroundColour(wx.Colour(0, 255, 0))
+        # box.SetBackgroundColour(wx.Colour(0, 255, 0))
         self.plotBox.Add(box, 1, wx.EXPAND, 0)
         return self.plotBox
 
