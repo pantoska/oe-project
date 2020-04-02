@@ -6,7 +6,7 @@ from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 
 
 class MainFrame(wx.Frame):
-    def __init__(self, parent, title, minsize=(600, 500)):
+    def __init__(self, parent, title, minsize=(740, 800)):
         super().__init__(parent=parent, title=title)
         self.panel = None
         self.SetMinSize(minsize)
@@ -48,7 +48,7 @@ class MainPanel(wx.Panel):
         self.plotBox = wx.BoxSizer()
         box = wx.StaticBox(self)
         #box.SetBackgroundColour(wx.Colour(0, 255, 0))
-        self.plotBox.Add(box, 1, wx.EXPAND)
+        self.plotBox.Add(box, 1, wx.SHAPED, 0)
         return self.plotBox
 
     def drawPlot(self, figure):
@@ -56,7 +56,7 @@ class MainPanel(wx.Panel):
         self.plotBox.Remove(0)
 
         plot = FigureCanvas(self, -1, figure)
-        self.plotBox.Add(plot, 1, wx.EXPAND)
+        self.plotBox.Add(plot, 1, wx.SHAPED, 0)
 
         self.Layout()
 
