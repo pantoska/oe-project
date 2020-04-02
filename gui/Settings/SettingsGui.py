@@ -73,6 +73,8 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.Layout()
         self.Fit()
 
+        self.onClickEnityStartegyCh()
+
     def drawTitle(self):
         titleinsidebox = wx.StaticText(self, wx.ID_ANY, SETTINGS_INSIDE_TITLE )
         return titleinsidebox
@@ -272,7 +274,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         sizer.Add(sizerCh2, 1, wx.ALL | wx.EXPAND, 5)
         return sizer
 
-    def onClickEnityStartegyCh(self, event):
+    def onClickEnityStartegyCh(self, event=None):
         if self.radio_elity_startegy_ch1.GetValue():
             self.input_elity_strategy_percent.Enable()
         else:
