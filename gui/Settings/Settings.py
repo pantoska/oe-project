@@ -51,6 +51,7 @@ class SettingsControl:
     def handleOkButton(self, event):
         self._updateValues()
         if self.checkData():
+            wx.PostEvent(self.parent, event)
             self.settingsWindow.Close()
 
     def checkData(self):

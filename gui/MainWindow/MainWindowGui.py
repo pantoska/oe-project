@@ -17,7 +17,9 @@ class MainPanel(wx.Panel):
     def __init__(self, parent):
         super().__init__(parent=parent)
         # window
-        self.settingswindow = SettingsControl(self.GetParent())
+        self.settingswindow = SettingsControl(self)
+        self.Bind(wx.EVT_BUTTON, self.updateVarsBox)
+        self.vars_box_sizer = None
 
         self.drawContent()
 
@@ -28,7 +30,6 @@ class MainPanel(wx.Panel):
         main_sizer.Add(self.drawSetVarsBox(), 0, wx.ALL | wx.EXPAND, 10)
 
         main_sizer.Add(self.drawSettingsButton(), 0, wx.ALL | wx.ALIGN_RIGHT, 10)
-        main_sizer.SetSizeHints(self)
         self.SetSizer(main_sizer)
 
     def drawSettingsButton(self):
@@ -48,10 +49,19 @@ class MainPanel(wx.Panel):
         return boxTitle
 
     def drawSetVarsBox(self):
-        sizer = wx.BoxSizer()
-        sizer.Add(self.drawSetVarLeft(), 1)
-        sizer.Add(self.drawSetVarRight(), 1)
-        return sizer
+        self.vars_box_sizer = wx.BoxSizer()
+        self.vars_box_sizer.Add(self.drawSetVarLeft(), 1)
+        self.vars_box_sizer.Add(self.drawSetVarRight(), 1)
+        return self.vars_box_sizer
+
+    def updateVarsBox(self, event):
+        for indx in reversed(range(len(self.vars_box_sizer.GetChildren()))):
+            self.vars_box_sizer.GetItem(indx).DeleteWindows()
+            self.vars_box_sizer.Remove(indx)
+
+        self.vars_box_sizer.Add(self.drawSetVarLeft(), 1)
+        self.vars_box_sizer.Add(self.drawSetVarRight(), 1)
+        self.Layout()
 
     def drawSetVarLeft(self):
         sizer = wx.BoxSizer(wx.VERTICAL)
