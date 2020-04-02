@@ -1,7 +1,7 @@
 import wx
 import wx.lib.scrolledpanel
 
-from gui.SettingsConst import *
+from gui.Settings.SettingsConst import *
 
 
 class SettingsFrame(wx.Frame):

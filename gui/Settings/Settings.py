@@ -1,7 +1,7 @@
 import wx
 
-from gui.SettingsGui import SettingsFrame
-from gui.SettingsConst import *
+from gui.Settings.SettingsGui import SettingsFrame
+from gui.Settings.SettingsConst import *
 
 
 class SettingsControl:
