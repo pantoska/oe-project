@@ -2,6 +2,8 @@ import wx
 
 from gui.Settings.Settings import SettingsControl, VAL_ELITY_STRATEGY_PERCENT, VAL_ELITY_STRATEGY_AMOUNT
 
+from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
+
 
 class MainFrame(wx.Frame):
     def __init__(self, parent, title, minsize=(600, 500)):
@@ -19,15 +21,15 @@ class MainPanel(wx.Panel):
         super().__init__(parent=parent)
         # window
         self.settingswindow = SettingsControl(self)
-        #self.Bind(wx.EVT_BUTTON, self.updateVarsBox)
+        # self.Bind(wx.EVT_BUTTON, self.updateVarsBox)
         self.vars_box_sizer = None
-        self.plotBox = wx.StaticBox(self)
+        self.plotBox = None
 
         self.drawContent()
 
     def drawContent(self):
         main_sizer = wx.BoxSizer(wx.VERTICAL)
-        main_sizer.Add(self._drawPlot(), 2, wx.ALL | wx.EXPAND, 10)
+        main_sizer.Add(self._initDrawPlot(), 2, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawSetVarsBoxTitle(), 0, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawSetVarsBox(), 0, wx.ALL | wx.EXPAND, 10)
 
@@ -42,11 +44,21 @@ class MainPanel(wx.Panel):
     def onClickSettingsButton(self, event):
         self.settingswindow.showWindow()
 
-    def _drawPlot(self):
+    def _initDrawPlot(self):
+        self.plotBox = wx.BoxSizer()
+        box = wx.StaticBox(self)
+        #box.SetBackgroundColour(wx.Colour(0, 255, 0))
+        self.plotBox.Add(box, 1, wx.EXPAND)
         return self.plotBox
 
     def drawPlot(self, figure):
-        self.plotBox
+        self.plotBox.GetItem(0).DeleteWindows()
+        self.plotBox.Remove(0)
+
+        plot = FigureCanvas(self, -1, figure)
+        self.plotBox.Add(plot, 1, wx.EXPAND)
+
+        self.Layout()
 
     def drawSetVarsBoxTitle(self):
         boxTitle = wx.StaticText(self, wx.ID_ANY, "Ustawione wartości", style=wx.ALIGN_CENTER)
@@ -76,15 +88,15 @@ class MainPanel(wx.Panel):
         population = wx.StaticText(self, wx.ID_ANY, 'Wielkość populacji: ' +
                                    str(self.settingswindow.getPopulation()))
         epoch = wx.StaticText(self, wx.ID_ANY, 'Wielkość populacji: ' +
-                                   str(self.settingswindow.getEpoch()))
+                              str(self.settingswindow.getEpoch()))
         type_selection = wx.StaticText(self, wx.ID_ANY, 'Metoda selekcji: ' +
-                                   self.settingswindow.getTypeSelectionName())
+                                       self.settingswindow.getTypeSelectionName())
         division_selection = wx.StaticText(self, wx.ID_ANY, 'Wielkość populacji: ' +
-                                   str(self.settingswindow.getDivisionSelection()))
+                                           str(self.settingswindow.getDivisionSelection()))
         type_outbread = wx.StaticText(self, wx.ID_ANY, 'Krzyżowanie: ' +
-                                       self.settingswindow.getTypeOutBreadName())
+                                      self.settingswindow.getTypeOutBreadName())
         propability_outbread = wx.StaticText(self, wx.ID_ANY, 'Prawdopodobieństwo krzyżowania: ' +
-                                           str(self.settingswindow.getPropabilityOutBread()))
+                                             str(self.settingswindow.getPropabilityOutBread()))
 
         sizer.Add(chromosome_precision, 0)
         sizer.Add(population, 0)
@@ -102,9 +114,9 @@ class MainPanel(wx.Panel):
         type_margin_mutation = wx.StaticText(self, wx.ID_ANY, 'Mutacja brzegowa: ' +
                                              str(self.settingswindow.getTypeMarginMutationName()))
         propability_margin_mutation = wx.StaticText(self, wx.ID_ANY, 'Prawdopodobieństwo mutacji brzegowej: ' +
-                                   str(self.settingswindow.getPropabilityMarginMutation()))
+                                                    str(self.settingswindow.getPropabilityMarginMutation()))
         propability_inversion = wx.StaticText(self, wx.ID_ANY, 'Prawdopodobieństwo inwersji: ' +
-                                   str(self.settingswindow.getPropabilityInversion()), )
+                                              str(self.settingswindow.getPropabilityInversion()), )
 
         elity_text = 'Liczba osobników przechodzaca do kolejnej populacji: '
         if self.settingswindow.getElityStartegy() == VAL_ELITY_STRATEGY_PERCENT:
