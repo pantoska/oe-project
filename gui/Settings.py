@@ -50,7 +50,36 @@ class SettingsControl:
 
     def handleOkButton(self, event):
         self._updateValues()
-        self.settingsWindow.Close()
+        if self.checkData():
+            self.settingsWindow.Close()
+
+    def checkData(self):
+        error_list = []
+        if self.settingsWindow.panel.input_type_selection.GetSelection() == -1:
+            error_list.append('Nie wybrano metody selekcji!')
+
+        if self.settingsWindow.panel.input_type_outbread.GetSelection() == -1:
+            error_list.append('Nie wybrano metody krzyżowania!')
+
+        if self.settingsWindow.panel.input_type_margin_mutation.GetSelection() == -1:
+            error_list.append('Nie wybrano mutacji brzegowej')
+
+        if self.settingsWindow.panel.radio_elity_startegy_ch2.GetValue() == \
+                self.settingsWindow.panel.radio_elity_startegy_ch1.GetValue():
+            error_list.append('Nie wybrano liczby osobników przechodzacej do następnej populacji')
+
+        if len(error_list) > 0:
+            error_string = ''
+            for err in error_list:
+                error_string = error_string + err + '\n'
+
+            messageDialog = wx.MessageDialog(self.settingsWindow, error_string, 'No to żeś narobił!',
+                                             wx.OK | wx.CENTRE | wx.ICON_ERROR)
+            messageDialog.ShowModal()
+            return False
+        else:
+            return True
+
 
     def getChromosomePrecision(self):
         return self.values['chromosome_precision']
