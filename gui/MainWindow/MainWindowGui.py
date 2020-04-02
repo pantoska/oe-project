@@ -6,11 +6,12 @@ from gui.Settings.Settings import SettingsControl, VAL_ELITY_STRATEGY_PERCENT, V
 class MainFrame(wx.Frame):
     def __init__(self, parent, title, minsize=(600, 500)):
         super().__init__(parent=parent, title=title)
+        self.panel = None
         self.SetMinSize(minsize)
         self.OnInit()
 
     def OnInit(self):
-        panel = MainPanel(self)
+        self.panel = MainPanel(self)
 
 
 class MainPanel(wx.Panel):
@@ -18,14 +19,15 @@ class MainPanel(wx.Panel):
         super().__init__(parent=parent)
         # window
         self.settingswindow = SettingsControl(self)
-        self.Bind(wx.EVT_BUTTON, self.updateVarsBox)
+        #self.Bind(wx.EVT_BUTTON, self.updateVarsBox)
         self.vars_box_sizer = None
+        self.plotBox = wx.StaticBox(self)
 
         self.drawContent()
 
     def drawContent(self):
         main_sizer = wx.BoxSizer(wx.VERTICAL)
-        main_sizer.Add(self.drawPlot(), 2, wx.ALL | wx.EXPAND, 10)
+        main_sizer.Add(self._drawPlot(), 2, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawSetVarsBoxTitle(), 0, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawSetVarsBox(), 0, wx.ALL | wx.EXPAND, 10)
 
@@ -40,8 +42,11 @@ class MainPanel(wx.Panel):
     def onClickSettingsButton(self, event):
         self.settingswindow.showWindow()
 
-    def drawPlot(self):
-        return wx.StaticBox(self)
+    def _drawPlot(self):
+        return self.plotBox
+
+    def drawPlot(self, figure):
+        self.plotBox
 
     def drawSetVarsBoxTitle(self):
         boxTitle = wx.StaticText(self, wx.ID_ANY, "Ustawione wartości", style=wx.ALIGN_CENTER)
@@ -54,7 +59,7 @@ class MainPanel(wx.Panel):
         self.vars_box_sizer.Add(self.drawSetVarRight(), 1)
         return self.vars_box_sizer
 
-    def updateVarsBox(self, event):
+    def updateVarsBox(self):
         for indx in reversed(range(len(self.vars_box_sizer.GetChildren()))):
             self.vars_box_sizer.GetItem(indx).DeleteWindows()
             self.vars_box_sizer.Remove(indx)

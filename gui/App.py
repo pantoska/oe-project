@@ -7,17 +7,18 @@ class AppMain(wx.App):
         super().__init__(clearSigInt=True)
 
         # handle event from child
-        self.Bind(wx.EVT_BUTTON, self.SettedData)
+        self.Bind(wx.EVT_BUTTON, self.SetData)
+        self.frame = MainFrame(None, "Funkcja jakaś tam!")
         # init Frame
         self.InitFrame()
 
     def InitFrame(self):
-        frame = MainFrame(None, "Funkcja jakaś tam!")
-        frame.Show()
+        self.frame.Show()
 
-    def SettedData(self, event):
-        self.refreshSettedData()
+    def SetData(self, event):
+        print("handled")
+        self.refreshSetData()
 
-    def refreshSettedData(self):
-        frame.refreshValueBox()
+    def refreshSetData(self):
+        self.frame.panel.updateVarsBox()
 

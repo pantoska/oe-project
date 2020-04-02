@@ -73,6 +73,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.Layout()
         self.Fit()
 
+        # Refresh number inputs
         self.onClickEnityStartegyCh()
 
     def drawTitle(self):
