@@ -48,7 +48,7 @@ class MainPanel(wx.Panel):
         self.plotBox = wx.BoxSizer()
         box = wx.StaticBox(self)
         #box.SetBackgroundColour(wx.Colour(0, 255, 0))
-        self.plotBox.Add(box, 1, wx.SHAPED, 0)
+        self.plotBox.Add(box, 1, wx.EXPAND, 0)
         return self.plotBox
 
     def drawPlot(self, figure):
