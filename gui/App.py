@@ -3,7 +3,6 @@ import wx
 from matplotlib import cm
 
 import matplotlib.pyplot as plt
-
 from gui.MainWindow.MainWindowGui import MainFrame
 
 class AppMain(wx.App):
