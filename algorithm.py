@@ -50,26 +50,6 @@ class Algorithm:
             evaluated_pop[i] = 1 / (func(func.decode_individual(pop[i], N, B, a, dx)))
         return evaluated_pop
 
-    # selekcja najlepszych
-    # pop - populacja zakodowanych osobnikow,  evaluated_pop - funkcja celu na kazdym osobniku
-    # def get_best_percent(self, pop, evaluated_pop, percent):
-    #
-    #     copy_evaluated_pop = evaluated_pop[:]
-    #     best_individual_percent = []
-    #     best_value_percent = []
-    #
-    #     for i in range(pop * percent):
-    #         best_value = max(copy_evaluated_pop)
-    #         # best_value = min(copy_evaluated_pop)
-    #         best_value_percent.insert(i, best_value)
-    #         best_individual_percent.insert(i, np.argmax(copy_evaluated_pop))
-    #         copy_evaluated_pop.pop(np.argmax(copy_evaluated_pop))
-    #         i = i + 1
-    #
-    #     # best_value = max(evaluated_pop)
-    #     # best_individual = pop[np.argmax(evaluated_pop)]
-    #     return best_individual_percent, best_value_percent
-
     def get_best_percent(self, pop, evaluated_pop, percent):
         copy_evaluated_pop = evaluated_pop[:]
         best_individual_percent = []
@@ -299,6 +279,34 @@ class Algorithm:
                     new_pop[i][pop.shape[1] - 1] = 1
                 else:
                     new_pop[i][pop.shape[1] - 1] = 0
+        return new_pop
+
+    def inversion(self, pop, pk):
+
+        new_pop = np.array(pop, copy=True)
+        temp = np.array(pop, copy=True)
+        # shape[0] to ilosc rzedow, shape[1] to ilosc kolumn 2 to jest krok
+        for i in range(0, pop.shape[0], 1):
+            rnd = np.random.random()
+            if (rnd < pk):
+                first_pivot = np.random.randint(1, pop.shape[1] - 1)
+                second_pivot = np.random.randint(1, pop.shape[1] - 1)
+
+                if (first_pivot == second_pivot):
+                    while (first_pivot == second_pivot):
+                        second_pivot = np.random.randint(1, pop.shape[1] - 1)
+
+                max_pivot = max(first_pivot, second_pivot)
+                min_pivot = min(first_pivot, second_pivot)
+
+                new_part = []
+                for j in range(min_pivot, max_pivot):
+                    new_part.append(pop[i][j])
+
+                new_part.reverse()
+
+                new_pop[i] = np.concatenate((pop[i][:min_pivot], new_part, pop[i][max_pivot:]))
+
         return new_pop
 
     # a,b,c,d,e = function(fun, 60, 0.7, 0.01, 200, 1e-10)
