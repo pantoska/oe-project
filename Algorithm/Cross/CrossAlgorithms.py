@@ -3,10 +3,8 @@ import numpy as np
 
 class CrossAlgorithms:
 
-    def __init__(self, all_pop, best_pop):
-        self.times = all_pop - best_pop
 
-    def single_cross(self, pop, probability):
+    def single_cross(self, pop, probability,times):
 
         new_pop = np.array(pop, copy=True)
         temp = np.array(pop, copy=True)
@@ -31,7 +29,7 @@ class CrossAlgorithms:
 
         return new_pop
 
-    def double_cross(self, pop, probability):
+    def double_cross(self, pop, probability, times):
 
         new_pop = np.array(pop, copy=True)
         temp = np.array(pop, copy=True)
@@ -76,7 +74,7 @@ class CrossAlgorithms:
 
         return new_pop
 
-    def triple_cross(self, pop, pk):
+    def triple_cross(self, pop, pk, times):
 
         new_pop = np.array(pop, copy=True)
         temp = np.array(pop, copy=True)
@@ -136,7 +134,7 @@ class CrossAlgorithms:
 
         return new_pop
 
-    def homogeneous_cross(self, pop, pk):
+    def homogeneous_cross(self, pop, pk, times):
 
         new_pop = np.array(pop, copy=True)
         temp = np.array(pop, copy=True)

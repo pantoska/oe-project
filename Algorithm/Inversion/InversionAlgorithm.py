@@ -1,3 +1,6 @@
+import numpy as np
+import Algorithm.Selection.Best as best
+
 
 class InversionAlgorithm:
 
@@ -29,13 +32,12 @@ class InversionAlgorithm:
 
         return new_pop
 
-    def elite_strategy(pop, evaluated_pop, number=0, percent=0):
+    def elite_strategy(self, pop, evaluated_pop, number=0, percent=0):
 
         if (percent != 0):
-            b, best_value = get_best_percent(pop, evaluated_pop, percent)
+            b, best_value = best.Best.get_best_max(self, pop, evaluated_pop, percent)
         elif (number != 0):
-            percent = number / pop.size * 100
-            b, best_value = get_best_percent(pop, evaluated_pop, percent)
+            per = number / len(pop) * 100
+            b, best_value = best.Best.get_best_max(self, pop, evaluated_pop, per)
 
-        return b
-
+        return b, best_value

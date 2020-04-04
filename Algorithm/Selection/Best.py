@@ -3,11 +3,6 @@ import numpy as np
 
 class Best:
 
-    def __init__(self, population, evaluated_population, percent):
-        self.population = population
-        self.evaluated_population = evaluated_population
-        self.percent = percent
-
     def get_best_max(self, pop, evaluated_pop, percent):
         copy_evaluated_pop = np.array(evaluated_pop, copy=True)
 

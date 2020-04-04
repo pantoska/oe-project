@@ -36,7 +36,6 @@ class MutationAlgorithm:
 
         return new_pop
 
-    # mutacja brzegowa
     def mutate_edge(self, pop, pm):
         new_pop = np.array(pop, copy=True)
         for i in range(pop.shape[0]):
