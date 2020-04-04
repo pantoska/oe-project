@@ -58,6 +58,10 @@ class SettingsControl:
 
     def checkData(self):
         error_list = []
+
+        if self.settingsWindow.panel.input_chromosome_precision.GetValue() == 0:
+            error_list.append('Dokladność chromosomu nie może być 0!')
+
         if self.settingsWindow.panel.input_type_selection.GetSelection() == -1:
             error_list.append('Nie wybrano metody selekcji!')
 

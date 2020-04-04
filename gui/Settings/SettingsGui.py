@@ -100,7 +100,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         inputlabel = wx.StaticText(self, wx.ID_ANY, "Dokladność chromosomu:",
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
-        self.input_chromosome_precision = wx.SpinCtrlDouble(self, wx.ID_ANY, min=0, max=100)
+        self.input_chromosome_precision = wx.SpinCtrlDouble(self, wx.ID_ANY, min=0, max=0.01)
         if 'chromosome_precision' in self.values:
             self.input_chromosome_precision.SetValue(self.values['chromosome_precision'])
 
