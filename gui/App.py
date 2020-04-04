@@ -168,8 +168,7 @@ class AppMain(wx.App):
         self.frame.panel.updateTime(time)
         print(time)
 
-        # print("liczba iteracji", g + 1)
-        # print("srednia", list_mean, "wartosci", list_values, "odchylenie", list_sd)
+        list_values = np.reshape(list_values, (generations+1,len(evaluated_pop)))
 
         gen = []
         for i in range(generations + 1):
@@ -195,10 +194,14 @@ class AppMain(wx.App):
         ax1.scatter(X, Y, list_sd, c='y', marker='o')
         ax1.set_title("Odchylenie standardowe")
 
+        best = []
+        for i in list_values:
+            best.append(max(i))
+
         fig2 = plt.figure()
         ax2 = fig2.add_subplot(111, projection='3d')
-        ax2.scatter(X, Y, list_values[len(list_values) // 2], c='y', marker='o')
-        ax2.set_title("Wartości funkcji w " + str(len(list_values) // 2) + " iteracji")
+        ax2.scatter(X, Y, np.array(best), c='y', marker='o')
+        ax2.set_title("Wartości funkcji")
 
         self.frame.panel.drawPlot([fig, fig1, fig2])
         print(self.frame.panel.settingswindow.getSaveFilePathlist_mean())
