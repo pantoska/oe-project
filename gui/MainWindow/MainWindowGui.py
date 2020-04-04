@@ -32,7 +32,7 @@ class MainPanel(wx.Panel):
         main_sizer.Add(self.drawSetVarsBox(), 0, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawOutputFilePath(), 0, wx.ALL | wx.EXPAND, 10)
 
-        main_sizer.Add(self.drawFooter(), 0, wx.ALL| wx.EXPAND, 10)
+        main_sizer.Add(self.drawFooter(), 0, wx.ALL | wx.EXPAND, 10)
         self.SetSizer(main_sizer)
 
     def drawFooter(self):
@@ -70,12 +70,15 @@ class MainPanel(wx.Panel):
         self.plotBox.Add(box, 1, wx.EXPAND, 0)
         return self.plotBox
 
-    def drawPlot(self, figure):
-        self.plotBox.GetItem(0).DeleteWindows()
-        self.plotBox.Remove(0)
+    def drawPlot(self, figureArray):
+        for indx in reversed(range(len(self.plotBox.GetChildren()))):
+            self.plotBox.GetItem(indx).DeleteWindows()
+            self.plotBox.Remove(indx)
 
-        plot = FigureCanvas(self, -1, figure)
-        self.plotBox.Add(plot, 1, wx.SHAPED, 0)
+        for fig in figureArray:
+            plot = FigureCanvas(self, -1, fig)
+            plot.SetMinSize((200, 200))
+            self.plotBox.Add(plot, 1, wx.SHAPED, 0)
 
         self.Layout()
 
