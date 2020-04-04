@@ -45,5 +45,11 @@ class AppMain(wx.App):
 
         self.frame.panel.drawPlot([figure, figure1, figure1])
         self.frame.panel.updateTime(10)
+        print(self.frame.panel.settingswindow.getSaveFilePathlist_mean())
+
+        def saveToFileArrays(self, list_mean, list_values, list_sd):
+            np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_mean(), list_mean, delimiter=',')
+            np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_values(), list_values, delimiter=',')
+            np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_sd(), list_sd, delimiter=',')
 
 
