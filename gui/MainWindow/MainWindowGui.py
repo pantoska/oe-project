@@ -131,10 +131,10 @@ class MainPanel(wx.Panel):
     def drawSetVarRight(self):
         sizer = wx.BoxSizer(wx.VERTICAL)
 
-        type_margin_mutation = wx.StaticText(self, wx.ID_ANY, 'Mutacja brzegowa: ' +
-                                             str(self.settingswindow.getTypeMarginMutationName()))
+        type_margin_mutation = wx.StaticText(self, wx.ID_ANY, 'Mutacja: ' +
+                                             str(self.settingswindow.getTypeMutationName()))
         propability_margin_mutation = wx.StaticText(self, wx.ID_ANY, 'Prawdopodobieństwo mutacji brzegowej: ' +
-                                                    str(self.settingswindow.getPropabilityMarginMutation()))
+                                                    str(self.settingswindow.getPropabilityMutation()))
         propability_inversion = wx.StaticText(self, wx.ID_ANY, 'Prawdopodobieństwo inwersji: ' +
                                               str(self.settingswindow.getPropabilityInversion()), )
 

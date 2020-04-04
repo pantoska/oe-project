@@ -16,8 +16,8 @@ class SettingsControl:
             'division_selection': 5,
             'type_outbread': -1,
             'propability_outbread': 0.1,
-            'type_margin_mutation': -1,
-            'propability_margin_mutation': 0.1,
+            'type_mutation': -1,
+            'propability_mutation': 0.1,
             'PropabilityInversion': 0.1,
             'radio_elity_startegy_ch1': False,
             'radio_elity_startegy_ch2': False,
@@ -35,8 +35,8 @@ class SettingsControl:
             'division_selection': self.settingsWindow.panel.input_division_selection.GetValue(),
             'type_outbread': self.settingsWindow.panel.input_type_outbread.GetSelection(),
             'propability_outbread': self.settingsWindow.panel.input_propability_outbread.GetValue(),
-            'type_margin_mutation': self.settingsWindow.panel.input_type_margin_mutation.GetSelection(),
-            'propability_margin_mutation': self.settingsWindow.panel.input_propability_margin_mutation.GetValue(),
+            'type_mutation': self.settingsWindow.panel.input_type_margin_mutation.GetSelection(),
+            'propability_mutation': self.settingsWindow.panel.input_propability_mutation.GetValue(),
             'PropabilityInversion': self.settingsWindow.panel.input_propability_inversion.GetValue(),
             'radio_elity_startegy_ch1': self.settingsWindow.panel.radio_elity_startegy_ch1.GetValue(),
             'radio_elity_startegy_ch2': self.settingsWindow.panel.radio_elity_startegy_ch2.GetValue(),
@@ -58,6 +58,10 @@ class SettingsControl:
 
     def checkData(self):
         error_list = []
+
+        if self.settingsWindow.panel.input_chromosome_precision.GetValue() == 0:
+            error_list.append('Dokladność chromosomu nie może być 0!')
+
         if self.settingsWindow.panel.input_type_selection.GetSelection() == -1:
             error_list.append('Nie wybrano metody selekcji!')
 
@@ -109,6 +113,8 @@ class SettingsControl:
             return VAL_SELECTIONCHOICE_WHEEL_STR
         elif self.values['type_selection'] == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION:
             return VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR
+        elif self.values['type_selection'] == VAL_SELECTIONCHOICE_THEBEST:
+            return VAL_SELECTIONCHOICE_THEBEST_STR
 
     def getDivisionSelection(self):
         return self.values['division_selection']
@@ -125,23 +131,27 @@ class SettingsControl:
             return VAL_OUTBREAD_TWO_POINT_STR
         elif self.values['type_outbread'] == VAL_OUTBREAD_TRIPLE_POINT:
             return VAL_OUTBREAD_TRIPLE_POINT_STR
+        elif self.values['type_outbread'] == VAL_OUTBREAD_HOMOGENEOUS:
+            return VAL_OUTBREAD_HOMOGENEOUS_STR
 
     def getPropabilityOutBread(self):
         return self.values['propability_outbread']
 
-    def getTypeMarginMutation(self):
-        return self.values['type_margin_mutation']
+    def getTypeMutation(self):
+        return self.values['type_mutation']
 
-    def getTypeMarginMutationName(self):
-        if self.values['type_margin_mutation'] == -1:
+    def getTypeMutationName(self):
+        if self.values['type_mutation'] == -1:
             return ''
-        elif self.values['type_margin_mutation'] == VAl_MARGIN_MUTATION_ONE_POINT:
-            return VAl_MARGIN_MUTATION_ONE_POINT_STR
-        elif self.values['type_margin_mutation'] == VAl_MARGIN_MUTATION_TWO_POINT:
-            return VAl_MARGIN_MUTATION_TWO_POINT_STR
+        elif self.values['type_mutation'] == VAl_MUTATION_ONE_POINT:
+            return VAl_MUTATION_ONE_POINT_STR
+        elif self.values['type_mutation'] == VAl_MUTATION_TWO_POINT:
+            return VAl_MUTATION_TWO_POINT_STR
+        elif self.values['type_mutation'] == VAL_MUTATION_MARGIN:
+            return VAL_MUTATION_MARGIN_STR
 
-    def getPropabilityMarginMutation(self):
-        return self.values['propability_margin_mutation']
+    def getPropabilityMutation(self):
+        return self.values['propability_mutation']
 
     def getPropabilityInversion(self):
         return self.values['PropabilityInversion']
