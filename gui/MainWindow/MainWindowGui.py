@@ -22,6 +22,7 @@ class MainPanel(wx.Panel):
         self.plotBox = None
         self.timeText = None
         self.saveFilePathText = None
+        self.minimumValueText = None
 
         self.drawContent()
 
@@ -30,6 +31,7 @@ class MainPanel(wx.Panel):
         main_sizer.Add(self._initDrawPlot(), 2, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawSetVarsBoxTitle(), 0, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawSetVarsBox(), 0, wx.ALL | wx.EXPAND, 10)
+        main_sizer.Add(self.drawMinimumValue(), 0, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawOutputFilePath(), 0, wx.ALL | wx.EXPAND, 10)
 
         main_sizer.Add(self.drawFooter(), 0, wx.ALL | wx.EXPAND, 10)
@@ -111,22 +113,22 @@ class MainPanel(wx.Panel):
 
         function_type = wx.StaticText(self, wx.ID_ANY, self.settingswindow.getTypeOfFunctionName())
 
-        x_division = wx.StaticText(self, wx.ID_ANY, 'Przedział X funkcji: (' +
+        x_division = wx.StaticText(self, wx.ID_ANY, 'Przedział X1 funkcji: (' +
                                    str(self.settingswindow.getXdivisionStart()) + ', ' +
                                    str(self.settingswindow.getXdivisionEnd()) + ')')
 
-        y_division = wx.StaticText(self, wx.ID_ANY, 'Przedział Y funkcji: (' +
+        y_division = wx.StaticText(self, wx.ID_ANY, 'Przedział X2 funkcji: (' +
                                    str(self.settingswindow.getYdivisionStart()) + ', ' +
                                    str(self.settingswindow.getYdivisionEnd()) + ')')
 
-        Z_division = wx.StaticText(self, wx.ID_ANY, 'Przedział Z funkcji: (' +
-                                   str(self.settingswindow.getZdivisionStart()) + ', ' +
-                                   str(self.settingswindow.getZdivisionEnd()) + ')')
+        # Z_division = wx.StaticText(self, wx.ID_ANY, 'Przedział Z funkcji: (' +
+        #                            str(self.settingswindow.getZdivisionStart()) + ', ' +
+        #                            str(self.settingswindow.getZdivisionEnd()) + ')')
 
         sizer.Add(function_type, 0)
         sizer.Add(x_division, 0)
         sizer.Add(y_division, 0)
-        sizer.Add(Z_division, 0)
+        # sizer.Add(Z_division, 0)
         return sizer
 
     def drawSetVarMiddle(self):
@@ -136,11 +138,11 @@ class MainPanel(wx.Panel):
                                              str(self.settingswindow.getChromosomePrecision()))
         population = wx.StaticText(self, wx.ID_ANY, 'Wielkość populacji: ' +
                                    str(self.settingswindow.getPopulation()))
-        epoch = wx.StaticText(self, wx.ID_ANY, 'Wielkość populacji: ' +
+        epoch = wx.StaticText(self, wx.ID_ANY, 'Liczba epok: ' +
                               str(self.settingswindow.getEpoch()))
         type_selection = wx.StaticText(self, wx.ID_ANY, 'Metoda selekcji: ' +
                                        self.settingswindow.getTypeSelectionName())
-        division_selection = wx.StaticText(self, wx.ID_ANY, 'Wielkość populacji: ' +
+        division_selection = wx.StaticText(self, wx.ID_ANY, 'Liczba przedziałów: ' +
                                            str(self.settingswindow.getDivisionSelection()))
         type_outbread = wx.StaticText(self, wx.ID_ANY, 'Krzyżowanie: ' +
                                       self.settingswindow.getTypeOutBreadName())
@@ -186,3 +188,13 @@ class MainPanel(wx.Panel):
         self.saveFilePathText = wx.StaticText(self, wx.ID_ANY)
 
         return self.saveFilePathText
+
+    def drawMinimumValue(self):
+        self.minimumValueText = wx.StaticText(self, wx.ID_ANY)
+        self.minimumValueText.SetFont(wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.BOLD))
+
+        return self.minimumValueText
+
+    def setMinimumValue(self, value, x, y):
+        self.minimumValueText.SetLabel('Wartość minimalna funkcji: ' + str(value) + ' osiągnięta w punkcie [' +
+                                       str(x) + ', ' + str(y) + ']')
