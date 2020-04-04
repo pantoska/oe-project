@@ -145,7 +145,12 @@ class AppMain(wx.App):
         axes.plot_surface(X, Y, Z, cmap=cm.coolwarm,
                                linewidth=0, antialiased=False)
 
-        self.frame.panel.drawPlot(figure)
+        figure1 = plt.figure()
+        axes1 = figure1.gca(projection='3d')
+        axes1.plot_surface(X, X, Z, cmap=cm.coolwarm,
+                          linewidth=0, antialiased=False)
+
+        self.frame.panel.drawPlot([figure, figure1, figure1])
         self.frame.panel.updateTime(10)
 
 
