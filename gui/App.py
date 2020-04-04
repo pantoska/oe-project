@@ -176,22 +176,22 @@ class AppMain(wx.App):
 
         self.refreshSetData()
         self.drawPlot(list_mean, list_values, list_sd, gen)
+        self.saveToFileArrays(list_mean,list_values,list_sd)
 
     def refreshSetData(self):
         self.frame.panel.updateVarsBox()
 
     def drawPlot(self, list_mean, list_values, list_sd, generation):
         X = generation
-        Y = generation
 
         fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        ax.scatter(X, Y, list_mean, c='y', marker='o')
+        ax = fig.add_subplot(111)
+        ax.plot(X, list_mean)
         ax.set_title("Średnie wartości funkcji")
 
         fig1 = plt.figure()
-        ax1 = fig1.add_subplot(111, projection='3d')
-        ax1.scatter(X, Y, list_sd, c='y', marker='o')
+        ax1 = fig1.add_subplot(111)
+        ax1.plot(X, list_sd)
         ax1.set_title("Odchylenie standardowe")
 
         best = []
@@ -199,14 +199,14 @@ class AppMain(wx.App):
             best.append(max(i))
 
         fig2 = plt.figure()
-        ax2 = fig2.add_subplot(111, projection='3d')
-        ax2.scatter(X, Y, np.array(best), c='y', marker='o')
+        ax2 = fig2.add_subplot(111)
+        ax2.plot(X, np.array(best))
         ax2.set_title("Wartości funkcji")
 
         self.frame.panel.drawPlot([fig, fig1, fig2])
         print(self.frame.panel.settingswindow.getSaveFilePathlist_mean())
 
-        def saveToFileArrays(self, list_mean, list_values, list_sd):
-            np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_mean(), list_mean, delimiter=',')
-            np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_values(), list_values, delimiter=',')
-            np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_sd(), list_sd, delimiter=',')
+    def saveToFileArrays(self, list_mean, list_values, list_sd):
+        np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_mean(), list_mean, delimiter=',')
+        np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_values(), list_values, delimiter=',')
+        np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_sd(), list_sd, delimiter=',')
