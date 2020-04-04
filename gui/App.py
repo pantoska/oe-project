@@ -10,6 +10,7 @@ from Algorithm.Cross.CrossAlgorithms import CrossAlgorithms
 from Algorithm.Mutation.MutationAlgorithm import MutationAlgorithm
 from Algorithm.MainAlgorithm.MainAlgorithm import MainAlgorithm
 import matplotlib.pyplot as plt
+import timeit
 import math
 
 from gui.MainWindow.MainWindowGui import MainFrame
@@ -67,6 +68,8 @@ class AppMain(wx.App):
         #zapis pliku
         path = self.frame.panel.settingswindow.getSaveFilePath()
 
+        start_all_program = timeit.timeit()
+
         B, dx = main.get_amount_bits(range_start,range_stop, chromosome_prec)
         N = 2
 
@@ -82,7 +85,7 @@ class AppMain(wx.App):
             best_pop, best_value = tournament.tournament_max(pop, evaluated_pop, tour)
 
         if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
-            best_pop, best_value = roulette.roulette_max(pop, evaluated_pop, percent)
+            best_pop = roulette.roulette_max(pop, evaluated_pop, percent)
 
         remain, remain_value = inver.elite_strategy(best_pop, np.array(best_value), 0, percent)
 
@@ -161,7 +164,14 @@ class AppMain(wx.App):
             result = math.sqrt(sumary / length_list_values)
             list_sd = np.append(list_sd, result)
 
-        print("liczba iteracji", g+1)
+        stop_all_program = timeit.timeit()
+
+        time = abs(stop_all_program - start_all_program)
+
+        self.frame.panel.updateTime(time)
+        print(time)
+
+        # print("liczba iteracji", g+1)
         # print("srednia",list_mean,"wartosci", list_values,"odchylenie", list_sd)
 
         self.refreshSetData()
@@ -178,13 +188,14 @@ class AppMain(wx.App):
         Z = np.sin(R)
 
         figure = plt.figure()
-        ax = plt.axes(projection='3d')
-        ax.scatter(l[tt], k[tt], j[tt], zdir='z', s=20, c='blue', depthshade=True)
-        ax.set_title('Wykres')
-        ax.set_xlabel('x')
-        ax.set_ylabel('y')
-        ax.set_zlabel('z');
+        axes = figure.gca(projection='3d')
+        axes.plot_surface(X, Y, Z, cmap=cm.coolwarm,
+                          linewidth=0, antialiased=False)
 
+        figure1 = plt.figure()
+        axes1 = figure1.gca(projection='3d')
+        axes1.plot_surface(X, X, Z, cmap=cm.coolwarm,
+                           linewidth=0, antialiased=False)
 
         self.frame.panel.drawPlot([figure, figure, figure])
         self.frame.panel.updateTime(10)
