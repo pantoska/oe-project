@@ -22,6 +22,7 @@ class MainPanel(wx.Panel):
         self.plotBox = None
         self.timeText = None
         self.saveFilePathText = None
+        self.minimumValueText = None
 
         self.drawContent()
 
@@ -30,6 +31,7 @@ class MainPanel(wx.Panel):
         main_sizer.Add(self._initDrawPlot(), 2, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawSetVarsBoxTitle(), 0, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawSetVarsBox(), 0, wx.ALL | wx.EXPAND, 10)
+        main_sizer.Add(self.drawMinimumValue(), 0, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawOutputFilePath(), 0, wx.ALL | wx.EXPAND, 10)
 
         main_sizer.Add(self.drawFooter(), 0, wx.ALL | wx.EXPAND, 10)
@@ -186,3 +188,13 @@ class MainPanel(wx.Panel):
         self.saveFilePathText = wx.StaticText(self, wx.ID_ANY)
 
         return self.saveFilePathText
+
+    def drawMinimumValue(self):
+        self.minimumValueText = wx.StaticText(self, wx.ID_ANY)
+        self.minimumValueText.SetFont(wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.BOLD))
+
+        return self.minimumValueText
+
+    def setMinimumValue(self, value, x, y):
+        self.minimumValueText.SetLabel('Wartość minimalna funkcji: ' + str(value) + ' osiągnięta w punkcie [' +
+                                       str(x) + ', ' + str(y) + ']')
