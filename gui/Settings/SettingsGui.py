@@ -36,7 +36,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.input_type_outbread = None
         self.input_propability_outbread = None
         self.input_type_margin_mutation = None
-        self.input_propability_margin_mutation = None
+        self.input_propability_mutation = None
         self.input_propability_inversion = None
         self.radio_elity_startegy_ch1 = None
         self.radio_elity_startegy_ch2 = None
@@ -139,10 +139,11 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         inputlabel = wx.StaticText(self, wx.ID_ANY, "Metoda selekcji:",
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
-        self.input_type_selection = wx.Choice(self, choices=["", ""])
+        self.input_type_selection = wx.Choice(self, choices=["", "", ""])
         self.input_type_selection.SetString(VAL_SELECTIONCHOICE_WHEEL, VAL_SELECTIONCHOICE_WHEEL_STR)
         self.input_type_selection.SetString(VAL_SELECTIONCHOICE_TURNAMENT_SELECTION,
                                             VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR)
+        self.input_type_selection.SetString(VAL_SELECTIONCHOICE_THEBEST, VAL_SELECTIONCHOICE_THEBEST_STR)
 
         if 'type_selection' in self.values:
             self.input_type_selection.SetSelection(self.values['type_selection'])
@@ -169,10 +170,11 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         inputlabel = wx.StaticText(self, wx.ID_ANY, "Krzyżowanie:",
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
-        self.input_type_outbread = wx.Choice(self, choices=["", "", ""])
+        self.input_type_outbread = wx.Choice(self, choices=["", "", "", ""])
         self.input_type_outbread.SetString(VAL_OUTBREAD_ONE_POINT, VAL_OUTBREAD_ONE_POINT_STR)
         self.input_type_outbread.SetString(VAL_OUTBREAD_TWO_POINT, VAL_OUTBREAD_TWO_POINT_STR)
         self.input_type_outbread.SetString(VAL_OUTBREAD_TRIPLE_POINT, VAL_OUTBREAD_TRIPLE_POINT_STR)
+        self.input_type_outbread.SetString(VAL_OUTBREAD_HOMOGENEOUS, VAL_OUTBREAD_HOMOGENEOUS_STR)
 
         if 'type_outbread' in self.values:
             self.input_type_outbread.SetSelection(self.values['type_outbread'])
@@ -196,15 +198,16 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         return sizer
 
     def drawMarginMutationChoice(self):
-        inputlabel = wx.StaticText(self, wx.ID_ANY, "Mutacja brzegowa:",
+        inputlabel = wx.StaticText(self, wx.ID_ANY, "Mutacja:",
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
-        self.input_type_margin_mutation = wx.Choice(self, choices=["", ""])
-        self.input_type_margin_mutation.SetString(VAl_MARGIN_MUTATION_ONE_POINT, VAl_MARGIN_MUTATION_ONE_POINT_STR)
-        self.input_type_margin_mutation.SetString(VAl_MARGIN_MUTATION_TWO_POINT, VAl_MARGIN_MUTATION_TWO_POINT_STR)
+        self.input_type_margin_mutation = wx.Choice(self, choices=["", "", ""])
+        self.input_type_margin_mutation.SetString(VAl_MUTATION_ONE_POINT, VAl_MUTATION_ONE_POINT_STR)
+        self.input_type_margin_mutation.SetString(VAl_MUTATION_TWO_POINT, VAl_MUTATION_TWO_POINT_STR)
+        self.input_type_margin_mutation.SetString(VAL_MUTATION_MARGIN, VAL_MUTATION_MARGIN_STR)
 
-        if 'type_margin_mutation' in self.values:
-            self.input_type_margin_mutation.SetSelection(self.values['type_margin_mutation'])
+        if 'type_mutation' in self.values:
+            self.input_type_margin_mutation.SetSelection(self.values['type_mutation'])
 
         sizer = wx.BoxSizer()
         sizer.Add(inputlabel, 0, wx.ALL, 5)
@@ -212,16 +215,16 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         return sizer
 
     def drawMarginMutationPropability(self):
-        inputlabel = wx.StaticText(self, wx.ID_ANY, "Prawdopodobieństwo mutacji brzegowej:",
+        inputlabel = wx.StaticText(self, wx.ID_ANY, "Prawdopodobieństwo mutacji:",
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
-        self.input_propability_margin_mutation = wx.SpinCtrlDouble(self, wx.ID_ANY, min=0, max=1, inc=0.01)
-        if 'propability_margin_mutation' in self.values:
-            self.input_propability_margin_mutation.SetValue(self.values['propability_margin_mutation'])
+        self.input_propability_mutation = wx.SpinCtrlDouble(self, wx.ID_ANY, min=0, max=1, inc=0.01)
+        if 'propability_mutation' in self.values:
+            self.input_propability_mutation.SetValue(self.values['propability_mutation'])
 
         sizer = wx.BoxSizer()
         sizer.Add(inputlabel, 0, wx.ALL, 5)
-        sizer.Add(self.input_propability_margin_mutation, 1, wx.ALL | wx.EXPAND, 5)
+        sizer.Add(self.input_propability_mutation, 1, wx.ALL | wx.EXPAND, 5)
         return sizer
 
     def drawInversionPropability(self):
