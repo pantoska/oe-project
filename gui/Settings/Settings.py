@@ -23,7 +23,7 @@ class SettingsControl:
             'radio_elity_startegy_ch2': False,
             'elity_strategy_percent': 0,
             'elity_strategy_amount': 0,
-            'save_dir': ''
+            'save_file_path': ''
         }
 
     def _updateValues(self):
@@ -42,7 +42,7 @@ class SettingsControl:
             'radio_elity_startegy_ch2': self.settingsWindow.panel.radio_elity_startegy_ch2.GetValue(),
             'elity_strategy_percent': self.settingsWindow.panel.input_elity_strategy_percent.GetValue(),
             'elity_strategy_amount': self.settingsWindow.panel.input_elity_strategy_amount.GetValue(),
-            'save_dir': self.settingsWindow.panel.input_dir.GetPath()
+            'save_file_path': self.settingsWindow.panel.input_file_path.GetPath()
         }
 
     def showWindow(self):
@@ -153,5 +153,5 @@ class SettingsControl:
     def getElityAmount(self):
         return self.values['elity_strategy_amount']
 
-    def getDirToSave(self):
-        return self.values['save_dir']
+    def getSaveFilePath(self):
+        return self.values['save_file_path']

@@ -42,7 +42,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.radio_elity_startegy_ch2 = None
         self.input_elity_strategy_percent = None
         self.input_elity_strategy_amount = None
-        self.input_dir = None
+        self.input_file_path = None
 
         self.drawContent()
 
@@ -79,7 +79,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.onClickEnityStartegyCh()
 
     def drawTitle(self):
-        titleinsidebox = wx.StaticText(self, wx.ID_ANY, SETTINGS_INSIDE_TITLE )
+        titleinsidebox = wx.StaticText(self, wx.ID_ANY, SETTINGS_INSIDE_TITLE)
         return titleinsidebox
 
     def drawButtons(self):
@@ -313,13 +313,13 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
 
-        self.input_dir = wx.DirPickerCtrl(self)
-        if 'save_dir' in self.values:
-            self.input_dir.SetPath(self.values['save_dir'])
+        self.input_file_path = wx.FilePickerCtrl(self, wildcard="Coma Separated Values: *.csv",
+                                                 style=wx.FLP_SAVE | wx.FLP_USE_TEXTCTRL | wx.FLP_OVERWRITE_PROMPT
+                                                 | wx.FLP_SMALL)
+        if 'save_file_path' in self.values:
+            self.input_file_path.SetPath(self.values['save_file_path'])
 
         sizer = wx.BoxSizer()
-        sizer.Add(inputlabel, 0, wx.ALL , 5)
-        sizer.Add(self.input_dir, 1, wx.ALL | wx.EXPAND, 5)
+        sizer.Add(inputlabel, 0, wx.ALL, 5)
+        sizer.Add(self.input_file_path, 1, wx.ALL | wx.EXPAND, 5)
         return sizer
-
-
