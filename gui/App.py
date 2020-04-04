@@ -34,7 +34,7 @@ class AppMain(wx.App):
 
     def SetData(self, event):
 
-        #===================================CONSTRUCTORS==========
+        # ===================================CONSTRUCTORS==========
         main = MainAlgorithm()
         inver = InversionAlgorithm()
         best = Best()
@@ -42,35 +42,35 @@ class AppMain(wx.App):
         tournament = Tournament()
         cross = CrossAlgorithms()
         mutate = MutationAlgorithm()
-        #==========================================================
+        # ==========================================================
 
         chromosome_prec = self.frame.panel.settingswindow.getChromosomePrecision()
-        #jaki przedzial poczatkowy
+        # jaki przedzial poczatkowy
         range_start = -10
-        #jaki przedzial koncowy
+        # jaki przedzial koncowy
         range_stop = 10
-        #populacja
+        # populacja
         population_size = self.frame.panel.settingswindow.getPopulation()
-        #procent najlepszych
+        # procent najlepszych
         percent = self.frame.panel.settingswindow.getElityPercent()
-        #ilosc najlepszych
+        # ilosc najlepszych
         amount = self.frame.panel.settingswindow.getElityPercent()
-        #ilosc generacji
+        # ilosc generacji
         generations = self.frame.panel.settingswindow.getEpoch()
-        #prawdopodobienstwo skrzyzowania
+        # prawdopodobienstwo skrzyzowania
         pk = self.frame.panel.settingswindow.getPropabilityOutBread()
-        #prawdopodobienstwo mutacji
+        # prawdopodobienstwo mutacji
         pm = self.frame.panel.settingswindow.getPropabilityMutation()
-        #ilosc turniei
+        # ilosc turniei
         tour = self.frame.panel.settingswindow.getDivisionSelection()
-        #inwersja
+        # inwersja
         inv = self.frame.panel.settingswindow.getPropabilityInversion()
-        #zapis pliku
+        # zapis pliku
         path = self.frame.panel.settingswindow.getSaveFilePath()
 
         start_all_program = timeit.timeit()
 
-        B, dx = main.get_amount_bits(range_start,range_stop, chromosome_prec)
+        B, dx = main.get_amount_bits(range_start, range_stop, chromosome_prec)
         N = 2
 
         pop = main.generate_population(population_size, N, B)
@@ -115,7 +115,7 @@ class AppMain(wx.App):
         best_p = np.array(best_pop)
         length = len(pop) - len(best_p)
 
-        #===============================================================================
+        # ===============================================================================
 
         for g in range(generations):
 
@@ -126,8 +126,7 @@ class AppMain(wx.App):
                 pop, best_value = tournament.tournament_max(pop, evaluated_pop, tour)
 
             if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
-                pop, best_value = roulette.roulette_max(pop, evaluated_pop, percent)
-
+                pop = roulette.roulette_max(pop, evaluated_pop, percent)
 
             if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_ONE_POINT_STR:
                 pop = cross.single_cross(pop, pk, length)
@@ -165,45 +164,46 @@ class AppMain(wx.App):
             list_sd = np.append(list_sd, result)
 
         stop_all_program = timeit.timeit()
-
         time = abs(stop_all_program - start_all_program)
-
         self.frame.panel.updateTime(time)
         print(time)
 
-        # print("liczba iteracji", g+1)
-        # print("srednia",list_mean,"wartosci", list_values,"odchylenie", list_sd)
+        # print("liczba iteracji", g + 1)
+        # print("srednia", list_mean, "wartosci", list_values, "odchylenie", list_sd)
+
+        gen = []
+        for i in range(generations + 1):
+            gen.append(i)
 
         self.refreshSetData()
-        self.drawPlot(list_mean, list_values, list_sd, g+1)
+        self.drawPlot(list_mean, list_values, list_sd, gen)
 
     def refreshSetData(self):
         self.frame.panel.updateVarsBox()
 
     def drawPlot(self, list_mean, list_values, list_sd, generation):
-        X = np.arange(-15, 15, 0.55)
-        Y = np.arange(-5, 5, 0.25)
-        X, Y = np.meshgrid(X, Y)
-        R = np.sqrt(X ** 2 + Y ** 2)
-        Z = np.sin(R)
+        X = generation
+        Y = generation
 
-        figure = plt.figure()
-        axes = figure.gca(projection='3d')
-        axes.plot_surface(X, Y, Z, cmap=cm.coolwarm,
-                          linewidth=0, antialiased=False)
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        ax.scatter(X, Y, list_mean, c='y', marker='o')
+        ax.set_title("Średnie wartości funkcji")
 
-        figure1 = plt.figure()
-        axes1 = figure1.gca(projection='3d')
-        axes1.plot_surface(X, X, Z, cmap=cm.coolwarm,
-                           linewidth=0, antialiased=False)
+        fig1 = plt.figure()
+        ax1 = fig1.add_subplot(111, projection='3d')
+        ax1.scatter(X, Y, list_sd, c='y', marker='o')
+        ax1.set_title("Odchylenie standardowe")
 
-        self.frame.panel.drawPlot([figure, figure, figure])
-        self.frame.panel.updateTime(10)
+        fig2 = plt.figure()
+        ax2 = fig2.add_subplot(111, projection='3d')
+        ax2.scatter(X, Y, list_values[len(list_values) // 2], c='y', marker='o')
+        ax2.set_title("Wartości funkcji w " + str(len(list_values) // 2) + " iteracji")
+
+        self.frame.panel.drawPlot([fig, fig1, fig2])
         print(self.frame.panel.settingswindow.getSaveFilePathlist_mean())
 
         def saveToFileArrays(self, list_mean, list_values, list_sd):
             np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_mean(), list_mean, delimiter=',')
             np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_values(), list_values, delimiter=',')
             np.savetxt(self.frame.panel.settingswindow.getSaveFilePathlist_sd(), list_sd, delimiter=',')
-
-

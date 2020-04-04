@@ -4,6 +4,3 @@ from Algorithm.MainAlgorithm.MainAlgorithm import MainAlgorithm
 if __name__ == "__main__":
     app = AppMain()
     app.MainLoop()
-
-    # main_algorithm = MainAlgorithm()
-    # print(main_algorithm.function(5, 0.7, 0.01, 20, 1e-10))
