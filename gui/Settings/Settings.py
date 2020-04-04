@@ -201,6 +201,21 @@ class SettingsControl:
     def getSaveFilePath(self):
         return self.values['save_file_path']
 
+    def getSaveFilePathlist_mean(self):
+        path = self.values['save_file_path']
+        path = path[0:-4]
+        return path + ' - list_mean.csv'
+
+    def getSaveFilePathlist_values(self):
+        path = self.values['save_file_path']
+        path = path[0:-4]
+        return path + ' - list_values.csv'
+
+    def getSaveFilePathlist_sd(self):
+        path = self.values['save_file_path']
+        path = path[0:-4]
+        return path + ' - list_sd.csv'
+
     def getXdivisionStart(self):
         return self.values['x_division_start']
 
