@@ -46,7 +46,7 @@ class SettingsControl:
         }
 
     def showWindow(self):
-        self.settingsWindow = SettingsFrame(self.parent, "Ustawienia", self.values )
+        self.settingsWindow = SettingsFrame(self.parent, "Ustawienia", self.values)
         self.settingsWindow.panel.button_ok.Bind(wx.EVT_BUTTON, self.handleOkButton)
         self.settingsWindow.Show()
 
@@ -65,11 +65,18 @@ class SettingsControl:
             error_list.append('Nie wybrano metody krzyżowania!')
 
         if self.settingsWindow.panel.input_type_margin_mutation.GetSelection() == -1:
-            error_list.append('Nie wybrano mutacji brzegowej')
+            error_list.append('Nie wybrano mutacji brzegowej!')
 
         if self.settingsWindow.panel.radio_elity_startegy_ch2.GetValue() == \
                 self.settingsWindow.panel.radio_elity_startegy_ch1.GetValue():
-            error_list.append('Nie wybrano liczby osobników przechodzacej do następnej populacji')
+            error_list.append('Nie wybrano liczby osobników przechodzacej do następnej populacji!')
+
+        if len(self.settingsWindow.panel.input_file_path.GetPath()) < 5:
+            error_list.append('Nie wybrano miejsca zapisu pliku!')
+        else:
+            if self.settingsWindow.panel.input_file_path.GetPath()[1] != ':' and \
+                    self.settingsWindow.panel.input_file_path.GetPath()[2] != '/':
+                error_list.append('Podano źle ścieżkę pliku!')
 
         if len(error_list) > 0:
             error_string = ''
@@ -82,7 +89,6 @@ class SettingsControl:
             return False
         else:
             return True
-
 
     def getChromosomePrecision(self):
         return self.values['chromosome_precision']
