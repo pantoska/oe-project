@@ -17,6 +17,17 @@ Tworzy okienko i je wyświetla
 Zwracają wartość zapisaną w tablicy w kontrolerze. 
 Naciśnięcie przycisku OK w okienku aktualizuje wartosci.
 
+* getChromosomePrecision
+* getPopulation
+* getEpoch
+* getDivisionSelection
+* getPropabilityOutBread
+* getPropabilityMutation
+* getPropabilityInversion
+* getElityPercent
+* getElityAmount
+* getSaveFilePath
+
 #### Gettery do list rozwijanych
 Zwracają one indeks elementu na liście.
 Aby wiedzieć, co zostało zaznaczone należy porównywać do stałych
@@ -25,13 +36,16 @@ Lista tych getterów:
 * `getTypeSelection`  
   * `VAL_SELECTIONCHOICE_WHEEL`
   * `VAL_SELECTIONCHOICE_TURNAMENT_SELECTION`
+  * `VAL_SELECTIONCHOICE_THEBEST`
 * `getTypeOutBread`
   * `VAL_OUTBREAD_ONE_POINT`
   * `VAL_OUTBREAD_TWO_POINT`
   * `VAL_OUTBREAD_TRIPLE_POINT`
-* `getTypeMarginMutation`
-  * `VAl_MARGIN_MUTATION_ONE_POINT`
-  * `VAl_MARGIN_MUTATION_TWO_POINT`
+  * `VAL_OUTBREAD_HOMOGENEOUS`
+* `getTypeMutation`
+  * `VAl_MUTATION_ONE_POINT`
+  * `VAl_MUTATION_TWO_POINT`
+  * `VAL_MUTATION_MARGIN`
 * `getElityStartegy`
   * `VAL_ELITY_STRATEGY_PERCENT`
   * `VAL_ELITY_STRATEGY_AMOUNT`
