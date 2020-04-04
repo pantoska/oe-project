@@ -27,6 +27,12 @@ Naciśnięcie przycisku OK w okienku aktualizuje wartosci.
 * getElityPercent
 * getElityAmount
 * getSaveFilePath
+* getXdivisionStart
+* getXdivisionEnd
+* getYdivisionStart
+* getYdivisionEnd
+* getZdivisionStart
+* getZdivisionEnd
 
 #### Gettery do list rozwijanych
 Zwracają one indeks elementu na liście.
@@ -49,6 +55,9 @@ Lista tych getterów:
 * `getElityStartegy`
   * `VAL_ELITY_STRATEGY_PERCENT`
   * `VAL_ELITY_STRATEGY_AMOUNT`
+* `getTypeOfFunction`
+  * `VAL_MINIMALIZATION`
+  * `VAL_MAXIMALIZATION`
   
 # Funkcjonowanie
 

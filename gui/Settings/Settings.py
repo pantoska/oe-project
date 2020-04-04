@@ -171,3 +171,24 @@ class SettingsControl:
 
     def getSaveFilePath(self):
         return self.values['save_file_path']
+
+    def getXdivisionStart(self):
+        return 0
+
+    def getXdivisionEnd(self):
+        return 0
+
+    def getYdivisionStart(self):
+        return 0
+
+    def getYdivisionEnd(self):
+        return 0
+
+    def getZdivisionStart(self):
+        return 0
+
+    def getZdivisionEnd(self):
+        return 0
+
+    def getTypeOfFunction(self):
+        return 0
