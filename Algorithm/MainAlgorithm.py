@@ -51,7 +51,9 @@ class MainAlgorithm:
             evaluated_pop[i] = func(self.decode_individual(population[i], amount_variables, amount_of_bits, a, step))
         return evaluated_pop
 
-    def function(self, pop_size, pk, pm, generations, dx):
+
+
+    def function(self, pop_size, pk, pm, generations, dx, percent):
 
         inver = InversionAlgorithm()
         best = Best()
@@ -62,7 +64,7 @@ class MainAlgorithm:
 
         start_all_program = timeit.timeit()
 
-        B, dx = self.get_amount_bits(-2, 2, 0.01)
+        B, dx = self.get_amount_bits(-10, 10, dx)
         N = 2
 
         pop = self.generate_population(pop_size, N, B)
@@ -105,7 +107,7 @@ class MainAlgorithm:
         for g in range(generations):
             pop = roulette.roulette_max(pop, evaluated_pop, 40)
             pop = cross.single_cross(pop, pk, length)
-            pop = mutate.mutate_one_points(pop, pk)
+            pop = mutate.mutate_one_points(pop, pm)
             pop = inver.inversion(pop, pk)
 
             evaluated_pop = self.evaluate_population(self.func, pop, N, B, -2, dx)
@@ -121,15 +123,15 @@ class MainAlgorithm:
             result = math.sqrt(sumary / length_list_values)
             list_sd = np.append(list_sd, result)
 
-        print("srednie", list_mean)
-        print("wartosci", list_values)
-        print("ostatnie", list_sd)
+        # print("srednie", list_mean)
+        # print("wartosci", list_values)
+        # print("ostatnie", list_sd)
 
         stop_all_program = timeit.timeit()
 
         print(abs(stop_all_program - start_all_program))
 
-        return list_mean
+        return list_mean, list_values, list_sd
         # new_pop_cross = cross.single_cross(best_p, 0.7, length)
         # new_pop_cross2 = cross.double_cross(best_p, 0.7, length)
         # new_pop_cross3 = cross.triple_cross(best_p, 0.7, length)
