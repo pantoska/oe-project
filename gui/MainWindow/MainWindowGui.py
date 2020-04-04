@@ -6,7 +6,7 @@ from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 
 
 class MainFrame(wx.Frame):
-    def __init__(self, parent, title, minsize=(740, 800)):
+    def __init__(self, parent, title, minsize=(730, 830)):
         super().__init__(parent=parent, title=title)
         self.SetMinSize(minsize)
         self.panel = MainPanel(self)
@@ -21,6 +21,7 @@ class MainPanel(wx.Panel):
         self.vars_box_sizer = None
         self.plotBox = None
         self.timeText = None
+        self.saveFilePathText = None
 
         self.drawContent()
 
@@ -29,6 +30,7 @@ class MainPanel(wx.Panel):
         main_sizer.Add(self._initDrawPlot(), 2, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawSetVarsBoxTitle(), 0, wx.ALL | wx.EXPAND, 10)
         main_sizer.Add(self.drawSetVarsBox(), 0, wx.ALL | wx.EXPAND, 10)
+        main_sizer.Add(self.drawOutputFilePath(), 0, wx.ALL | wx.EXPAND, 10)
 
         main_sizer.Add(self.drawFooter(), 0, wx.ALL| wx.EXPAND, 10)
         self.SetSizer(main_sizer)
@@ -95,6 +97,7 @@ class MainPanel(wx.Panel):
 
         self.vars_box_sizer.Add(self.drawSetVarLeft(), 1)
         self.vars_box_sizer.Add(self.drawSetVarRight(), 1)
+        self.saveFilePathText.SetLabel(self.settingswindow.getSaveFilePath())
         self.Layout()
 
     def drawSetVarLeft(self):
@@ -149,3 +152,8 @@ class MainPanel(wx.Panel):
         sizer.Add(elity, 0)
 
         return sizer
+
+    def drawOutputFilePath(self):
+        self.saveFilePathText = wx.StaticText(self, wx.ID_ANY)
+
+        return self.saveFilePathText

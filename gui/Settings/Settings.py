@@ -22,7 +22,8 @@ class SettingsControl:
             'radio_elity_startegy_ch1': False,
             'radio_elity_startegy_ch2': False,
             'elity_strategy_percent': 0,
-            'elity_strategy_amount': 0
+            'elity_strategy_amount': 0,
+            'save_file_path': ''
         }
 
     def _updateValues(self):
@@ -40,11 +41,12 @@ class SettingsControl:
             'radio_elity_startegy_ch1': self.settingsWindow.panel.radio_elity_startegy_ch1.GetValue(),
             'radio_elity_startegy_ch2': self.settingsWindow.panel.radio_elity_startegy_ch2.GetValue(),
             'elity_strategy_percent': self.settingsWindow.panel.input_elity_strategy_percent.GetValue(),
-            'elity_strategy_amount': self.settingsWindow.panel.input_elity_strategy_amount.GetValue()
+            'elity_strategy_amount': self.settingsWindow.panel.input_elity_strategy_amount.GetValue(),
+            'save_file_path': self.settingsWindow.panel.input_file_path.GetPath()
         }
 
     def showWindow(self):
-        self.settingsWindow = SettingsFrame(self.parent, "Ustawienia", self.values )
+        self.settingsWindow = SettingsFrame(self.parent, "Ustawienia", self.values)
         self.settingsWindow.panel.button_ok.Bind(wx.EVT_BUTTON, self.handleOkButton)
         self.settingsWindow.Show()
 
@@ -63,11 +65,18 @@ class SettingsControl:
             error_list.append('Nie wybrano metody krzyżowania!')
 
         if self.settingsWindow.panel.input_type_margin_mutation.GetSelection() == -1:
-            error_list.append('Nie wybrano mutacji brzegowej')
+            error_list.append('Nie wybrano mutacji brzegowej!')
 
         if self.settingsWindow.panel.radio_elity_startegy_ch2.GetValue() == \
                 self.settingsWindow.panel.radio_elity_startegy_ch1.GetValue():
-            error_list.append('Nie wybrano liczby osobników przechodzacej do następnej populacji')
+            error_list.append('Nie wybrano liczby osobników przechodzacej do następnej populacji!')
+
+        if len(self.settingsWindow.panel.input_file_path.GetPath()) < 5:
+            error_list.append('Nie wybrano miejsca zapisu pliku!')
+        else:
+            if self.settingsWindow.panel.input_file_path.GetPath()[1] != ':' and \
+                    self.settingsWindow.panel.input_file_path.GetPath()[2] != '/':
+                error_list.append('Podano źle ścieżkę pliku!')
 
         if len(error_list) > 0:
             error_string = ''
@@ -80,7 +89,6 @@ class SettingsControl:
             return False
         else:
             return True
-
 
     def getChromosomePrecision(self):
         return self.values['chromosome_precision']
@@ -150,3 +158,6 @@ class SettingsControl:
 
     def getElityAmount(self):
         return self.values['elity_strategy_amount']
+
+    def getSaveFilePath(self):
+        return self.values['save_file_path']

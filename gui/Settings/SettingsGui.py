@@ -5,7 +5,7 @@ from gui.Settings.SettingsConst import *
 
 
 class SettingsFrame(wx.Frame):
-    def __init__(self, parent, title, values={}, minsize=(450, 500)):
+    def __init__(self, parent, title, values={}, minsize=(500, 500)):
         super().__init__(parent=parent, title=title, style=wx.CAPTION | wx.RESIZE_BORDER)
 
         self.panel = None
@@ -42,6 +42,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.radio_elity_startegy_ch2 = None
         self.input_elity_strategy_percent = None
         self.input_elity_strategy_amount = None
+        self.input_file_path = None
 
         self.drawContent()
 
@@ -61,6 +62,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         main_sizer.Add(self.drawInversionPropability(), 0, wx.ALL | wx.EXPAND, 5)
         main_sizer.Add(self.drawElityStrategyLabel(), 0, wx.ALL | wx.EXPAND, 5)
         main_sizer.Add(self.drawElityStrategyRadio(), 0, wx.ALL | wx.EXPAND, 5)
+        main_sizer.Add(self.drawDirPicker(), 0, wx.ALL | wx.EXPAND, 5)
 
         main_sizer.AddStretchSpacer()
         main_sizer.Add(self.drawButtons(), 0, wx.ALIGN_RIGHT | wx.ALIGN_BOTTOM, 15)
@@ -77,7 +79,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.onClickEnityStartegyCh()
 
     def drawTitle(self):
-        titleinsidebox = wx.StaticText(self, wx.ID_ANY, SETTINGS_INSIDE_TITLE )
+        titleinsidebox = wx.StaticText(self, wx.ID_ANY, SETTINGS_INSIDE_TITLE)
         return titleinsidebox
 
     def drawButtons(self):
@@ -305,3 +307,19 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
             self.input_elity_strategy_amount.SetValue(self.values['elity_strategy_amount'])
 
         return self.input_elity_strategy_amount
+
+    def drawDirPicker(self):
+        inputlabel = wx.StaticText(self, wx.ID_ANY, "Miejsce zapisy pliku wynikowego:",
+                                   size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
+                                   style=wx.ST_NO_AUTORESIZE)
+
+        self.input_file_path = wx.FilePickerCtrl(self, wildcard="Coma Separated Values: *.csv",
+                                                 style=wx.FLP_SAVE | wx.FLP_USE_TEXTCTRL | wx.FLP_OVERWRITE_PROMPT
+                                                 | wx.FLP_SMALL)
+        if 'save_file_path' in self.values:
+            self.input_file_path.SetPath(self.values['save_file_path'])
+
+        sizer = wx.BoxSizer()
+        sizer.Add(inputlabel, 0, wx.ALL, 5)
+        sizer.Add(self.input_file_path, 1, wx.ALL | wx.EXPAND, 5)
+        return sizer
