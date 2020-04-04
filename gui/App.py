@@ -60,6 +60,9 @@ class AppMain(wx.App):
 
         best_pop, best_value = best.get_best_max(pop, evaluated_pop, percent)
 
+        roulette_pop, roulette_value = roulette.roulette_max(pop, evaluated_pop, 40)
+        tour_max, tour_value = tournament.tournament_max(pop, evaluated_pop, 3)
+
         remain, remain_value = inver.elite_strategy(best_pop, np.array(best_value), 0, percent)
 
         # lista srednich
@@ -93,7 +96,20 @@ class AppMain(wx.App):
         for g in range(generations):
             pop = roulette.roulette_max(pop, evaluated_pop, 40)
             pop = cross.single_cross(pop, pk, length)
+
+            # new_pop_cross = cross.single_cross(best_p, 0.7, length)
+            # new_pop_cross2 = cross.double_cross(best_p, 0.7, length)
+            # new_pop_cross3 = cross.triple_cross(best_p, 0.7, length)
+            # another_cross = cross.homogeneous_cross(best_p, 0.7, length)
+
             pop = mutate.mutate_one_points(pop, pm)
+
+            # edge = mutate.mutate_edge(new_pop_cross,0.7)
+            #
+            # one_point = mutate.mutate_one_points(new_pop_cross2, 0.7)
+            #
+            # two_point = mutate.mutate_two_points(new_pop_cross2, 0.7)
+
             pop = inver.inversion(pop, pk)
 
             evaluated_pop = main.evaluate_population(main.func, pop, N, B, -2, dx)
