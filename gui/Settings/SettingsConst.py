@@ -1,5 +1,6 @@
 SETTINGS_WINDOW_TITLE = "Ustawienia metody"
-SETTINGS_INSIDE_TITLE = 'Wprowadź ustawienia'
+SETTINGS_INSIDE_TITLE = 'Wprowadź ustawienia ogólne funkcji'
+SETTINGS_INSIDE_TITLE2 = 'Wprowadź ustawienia'
 SETTINGS_LABEL_MIN_WIDTH = 230
 SETTINGS_LABEL_HEIGHT = 20
 
