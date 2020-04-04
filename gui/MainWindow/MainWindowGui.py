@@ -111,22 +111,22 @@ class MainPanel(wx.Panel):
 
         function_type = wx.StaticText(self, wx.ID_ANY, self.settingswindow.getTypeOfFunctionName())
 
-        x_division = wx.StaticText(self, wx.ID_ANY, 'Przedział X funkcji: (' +
+        x_division = wx.StaticText(self, wx.ID_ANY, 'Przedział X1 funkcji: (' +
                                    str(self.settingswindow.getXdivisionStart()) + ', ' +
                                    str(self.settingswindow.getXdivisionEnd()) + ')')
 
-        y_division = wx.StaticText(self, wx.ID_ANY, 'Przedział Y funkcji: (' +
+        y_division = wx.StaticText(self, wx.ID_ANY, 'Przedział X2 funkcji: (' +
                                    str(self.settingswindow.getYdivisionStart()) + ', ' +
                                    str(self.settingswindow.getYdivisionEnd()) + ')')
 
-        Z_division = wx.StaticText(self, wx.ID_ANY, 'Przedział Z funkcji: (' +
-                                   str(self.settingswindow.getZdivisionStart()) + ', ' +
-                                   str(self.settingswindow.getZdivisionEnd()) + ')')
+        # Z_division = wx.StaticText(self, wx.ID_ANY, 'Przedział Z funkcji: (' +
+        #                            str(self.settingswindow.getZdivisionStart()) + ', ' +
+        #                            str(self.settingswindow.getZdivisionEnd()) + ')')
 
         sizer.Add(function_type, 0)
         sizer.Add(x_division, 0)
         sizer.Add(y_division, 0)
-        sizer.Add(Z_division, 0)
+        # sizer.Add(Z_division, 0)
         return sizer
 
     def drawSetVarMiddle(self):
@@ -136,11 +136,11 @@ class MainPanel(wx.Panel):
                                              str(self.settingswindow.getChromosomePrecision()))
         population = wx.StaticText(self, wx.ID_ANY, 'Wielkość populacji: ' +
                                    str(self.settingswindow.getPopulation()))
-        epoch = wx.StaticText(self, wx.ID_ANY, 'Wielkość populacji: ' +
+        epoch = wx.StaticText(self, wx.ID_ANY, 'Liczba epok: ' +
                               str(self.settingswindow.getEpoch()))
         type_selection = wx.StaticText(self, wx.ID_ANY, 'Metoda selekcji: ' +
                                        self.settingswindow.getTypeSelectionName())
-        division_selection = wx.StaticText(self, wx.ID_ANY, 'Wielkość populacji: ' +
+        division_selection = wx.StaticText(self, wx.ID_ANY, 'Liczba przedziałów: ' +
                                            str(self.settingswindow.getDivisionSelection()))
         type_outbread = wx.StaticText(self, wx.ID_ANY, 'Krzyżowanie: ' +
                                       self.settingswindow.getTypeOutBreadName())

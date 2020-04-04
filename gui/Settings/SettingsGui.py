@@ -61,7 +61,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         main_sizer.Add(self.drawChoiceTypeFunction(), 0, wx.ALL | wx.EXPAND, 5)
         main_sizer.Add(self.drawXdivision(), 0, wx.ALL | wx.EXPAND, 5)
         main_sizer.Add(self.drawYdivision(), 0, wx.ALL | wx.EXPAND, 5)
-        main_sizer.Add(self.drawZdivision(), 0, wx.ALL | wx.EXPAND, 5)
+        # main_sizer.Add(self.drawZdivision(), 0, wx.ALL | wx.EXPAND, 5)
         main_sizer.Add(self.drawSectionTitle(SETTINGS_INSIDE_TITLE2, 11), 0, wx.CENTER, 15)
         main_sizer.Add(self.drawPrecision(), 0, wx.ALL | wx.EXPAND, 5)
         main_sizer.Add(self.drawPopulationInput(), 0, wx.ALL | wx.EXPAND, 5)
@@ -127,7 +127,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
 
     def drawXdivision(self):
         sizer = wx.BoxSizer()
-        inputlabel = wx.StaticText(self, wx.ID_ANY, "Przedział X funkcji:",
+        inputlabel = wx.StaticText(self, wx.ID_ANY, "Przedział X1 funkcji:",
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
 
@@ -146,7 +146,7 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
 
     def drawYdivision(self):
         sizer = wx.BoxSizer()
-        inputlabel = wx.StaticText(self, wx.ID_ANY, "Przedział Y funkcji:",
+        inputlabel = wx.StaticText(self, wx.ID_ANY, "Przedział X2 funkcji:",
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
 
