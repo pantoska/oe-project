@@ -2,8 +2,6 @@ import numpy as np
 import timeit
 import math
 
-from mpl_toolkits.mplot3d import axes3d
-import matplotlib.pyplot as plt
 
 from Algorithm.Inversion.InversionAlgorithm import InversionAlgorithm
 from Algorithm.Selection.Best import Best
@@ -50,8 +48,6 @@ class MainAlgorithm:
         for i in range(int(population.size / (amount_of_bits * amount_variables))):
             evaluated_pop[i] = func(self.decode_individual(population[i], amount_variables, amount_of_bits, a, step))
         return evaluated_pop
-
-
 
     def function(self, pop_size, pk, pm, generations, dx, percent):
 

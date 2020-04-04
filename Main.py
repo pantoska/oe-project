@@ -1,6 +1,5 @@
-import wx
 from gui.App import AppMain
-from Algorithm.MainAlgorithm import MainAlgorithm
+from Algorithm.MainAlgorithm.MainAlgorithm import MainAlgorithm
 
 if __name__ == "__main__":
     app = AppMain()
