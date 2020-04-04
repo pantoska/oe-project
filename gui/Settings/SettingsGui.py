@@ -5,7 +5,7 @@ from gui.Settings.SettingsConst import *
 
 
 class SettingsFrame(wx.Frame):
-    def __init__(self, parent, title, values={}, minsize=(500, 500)):
+    def __init__(self, parent, title, values={}, minsize=(600, 500)):
         super().__init__(parent=parent, title=title, style=wx.CAPTION | wx.RESIZE_BORDER)
 
         self.panel = None
@@ -26,6 +26,14 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         super().__init__(parent=parent, style=wx.VSCROLL)
 
         self.values = values
+        self.radio_function_type_ch1 = None
+        self.radio_function_type_ch2 = None
+        self.input_x_division_start = None
+        self.input_x_division_end = None
+        self.input_y_division_start = None
+        self.input_y_division_end = None
+        self.input_z_division_start = None
+        self.input_z_division_end = None
         self.button_ok = None
         self.button_cancel = None
         self.input_chromosome_precision = None
@@ -49,7 +57,12 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
     def drawContent(self):
         main_sizer = wx.BoxSizer(wx.VERTICAL)
         main_sizer.AddSpacer(15)
-        main_sizer.Add(self.drawTitle(), 0, wx.CENTER, 15)
+        main_sizer.Add(self.drawSectionTitle(SETTINGS_INSIDE_TITLE, 13), 0, wx.CENTER, 15)
+        main_sizer.Add(self.drawChoiceTypeFunction(), 0, wx.ALL | wx.EXPAND, 5)
+        main_sizer.Add(self.drawXdivision(), 0, wx.ALL | wx.EXPAND, 5)
+        main_sizer.Add(self.drawYdivision(), 0, wx.ALL | wx.EXPAND, 5)
+        main_sizer.Add(self.drawZdivision(), 0, wx.ALL | wx.EXPAND, 5)
+        main_sizer.Add(self.drawSectionTitle(SETTINGS_INSIDE_TITLE2, 11), 0, wx.CENTER, 15)
         main_sizer.Add(self.drawPrecision(), 0, wx.ALL | wx.EXPAND, 5)
         main_sizer.Add(self.drawPopulationInput(), 0, wx.ALL | wx.EXPAND, 5)
         main_sizer.Add(self.drawEpochInput(), 0, wx.ALL | wx.EXPAND, 5)
@@ -78,8 +91,9 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         # Refresh number inputs
         self.onClickEnityStartegyCh()
 
-    def drawTitle(self):
-        titleinsidebox = wx.StaticText(self, wx.ID_ANY, SETTINGS_INSIDE_TITLE)
+    def drawSectionTitle(self, label, font_size=10):
+        titleinsidebox = wx.StaticText(self, wx.ID_ANY, label)
+        titleinsidebox.SetFont(wx.Font(font_size, wx.DEFAULT, wx.NORMAL, wx.BOLD))
         return titleinsidebox
 
     def drawButtons(self):
@@ -95,6 +109,78 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
 
     def onCancel(self, event):
         self.GetParent().Close()
+
+    def drawChoiceTypeFunction(self):
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        self.radio_function_type_ch1 = wx.RadioButton(self, label='Minimalizacja funkcji', name='selectFunctionType')
+        self.radio_function_type_ch2 = wx.RadioButton(self, label='Maksymalizacja funkcji', name='selectFunctionType')
+
+        if 'function_type_ch1' in self.values:
+            self.radio_function_type_ch1.SetValue(self.values['function_type_ch1'])
+
+        if 'function_type_ch2' in self.values:
+            self.radio_function_type_ch2.SetValue(self.values['function_type_ch2'])
+
+        sizer.Add(self.radio_function_type_ch1, 1, wx.ALL | wx.EXPAND, 5)
+        sizer.Add(self.radio_function_type_ch2, 1, wx.ALL | wx.EXPAND, 5)
+        return sizer
+
+    def drawXdivision(self):
+        sizer = wx.BoxSizer()
+        inputlabel = wx.StaticText(self, wx.ID_ANY, "Przedział X funkcji:",
+                                   size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
+                                   style=wx.ST_NO_AUTORESIZE)
+
+        self.input_x_division_start = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
+        self.input_x_division_end = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
+        if 'x_division_start' in self.values:
+            self.input_x_division_start.SetValue(self.values['x_division_start'])
+
+        if 'x_division_end' in self.values:
+            self.input_x_division_end.SetValue(self.values['x_division_end'])
+
+        sizer.Add(inputlabel, 0, wx.ALL, 5)
+        sizer.Add(self.input_x_division_start, 1, wx.ALL | wx.EXPAND, 5)
+        sizer.Add(self.input_x_division_end, 1, wx.ALL | wx.EXPAND, 5)
+        return sizer
+
+    def drawYdivision(self):
+        sizer = wx.BoxSizer()
+        inputlabel = wx.StaticText(self, wx.ID_ANY, "Przedział Y funkcji:",
+                                   size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
+                                   style=wx.ST_NO_AUTORESIZE)
+
+        self.input_y_division_start = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
+        self.input_y_division_end = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
+        if 'y_division_start' in self.values:
+            self.input_y_division_start.SetValue(self.values['y_division_start'])
+
+        if 'y_division_end' in self.values:
+            self.input_y_division_end.SetValue(self.values['y_division_end'])
+
+        sizer.Add(inputlabel, 0, wx.ALL, 5)
+        sizer.Add(self.input_y_division_start, 1, wx.ALL | wx.EXPAND, 5)
+        sizer.Add(self.input_y_division_end, 1, wx.ALL | wx.EXPAND, 5)
+        return sizer
+
+    def drawZdivision(self):
+        sizer = wx.BoxSizer()
+        inputlabel = wx.StaticText(self, wx.ID_ANY, "Przedział z funkcji:",
+                                   size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
+                                   style=wx.ST_NO_AUTORESIZE)
+
+        self.input_z_division_start = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
+        self.input_z_division_end = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
+        if 'z_division_start' in self.values:
+            self.input_z_division_start.SetValue(self.values['z_division_start'])
+
+        if 'z_division_end' in self.values:
+            self.input_z_division_end.SetValue(self.values['z_division_end'])
+
+        sizer.Add(inputlabel, 0, wx.ALL, 5)
+        sizer.Add(self.input_z_division_start, 1, wx.ALL | wx.EXPAND, 5)
+        sizer.Add(self.input_z_division_end, 1, wx.ALL | wx.EXPAND, 5)
+        return sizer
 
     def drawPrecision(self):
         inputlabel = wx.StaticText(self, wx.ID_ANY, "Dokladność chromosomu:",
@@ -250,10 +336,12 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         return sizer
 
     def drawElityStrategyRadio(self):
+        sizer = wx.BoxSizer(wx.VERTICAL)
         self.radio_elity_startegy_ch1 = wx.RadioButton(self,
                                                        label='Procent osobników:',
                                                        name='selectInutStartegy',
-                                                       size=(SETTINGS_LABEL_MIN_WIDTH - 10, SETTINGS_LABEL_HEIGHT))
+                                                       size=(SETTINGS_LABEL_MIN_WIDTH - 10, SETTINGS_LABEL_HEIGHT),
+                                                       style=wx.RB_GROUP)
         self.radio_elity_startegy_ch2 = wx.RadioButton(self,
                                                        label='Liczba osobników:',
                                                        name='selectInutStartegy',
@@ -268,7 +356,6 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.radio_elity_startegy_ch1.Bind(wx.EVT_RADIOBUTTON, self.onClickEnityStartegyCh)
         self.radio_elity_startegy_ch2.Bind(wx.EVT_RADIOBUTTON, self.onClickEnityStartegyCh)
 
-        sizer = wx.BoxSizer(wx.VERTICAL)
         sizerCh1 = wx.BoxSizer()
         sizerCh1.Add(self.radio_elity_startegy_ch1, 0, wx.ALL, 5)
         sizerCh1.Add(self.drawElityStrategyPercent(), 1, wx.ALL | wx.EXPAND, 5)

@@ -9,6 +9,14 @@ class SettingsControl:
         self.settingsWindow = None
         self.parent = parent
         self.values = {
+            'function_type_ch1': False,
+            'function_type_ch2': False,
+            'x_division_start': -10,
+            'x_division_end': 10,
+            'y_division_start': -10,
+            'y_division_end': 10,
+            'z_division_start': -10,
+            'z_division_end': 10,
             'chromosome_precision': 100,
             'population': 10,
             'epoch': 5,
@@ -28,6 +36,14 @@ class SettingsControl:
 
     def _updateValues(self):
         self.values = {
+            'function_type_ch1': self.settingsWindow.panel.radio_function_type_ch1.GetValue(),
+            'function_type_ch2': self.settingsWindow.panel.radio_function_type_ch2.GetValue(),
+            'x_division_start': self.settingsWindow.panel.input_x_division_start.GetValue(),
+            'x_division_end': self.settingsWindow.panel.input_x_division_end.GetValue(),
+            'y_division_start': self.settingsWindow.panel.input_y_division_start.GetValue(),
+            'y_division_end': self.settingsWindow.panel.input_y_division_end.GetValue(),
+            'z_division_start': self.settingsWindow.panel.input_z_division_start.GetValue(),
+            'z_division_end': self.settingsWindow.panel.input_z_division_end.GetValue(),
             'chromosome_precision': self.settingsWindow.panel.input_chromosome_precision.GetValue(),
             'population': self.settingsWindow.panel.input_population.GetValue(),
             'epoch': self.settingsWindow.panel.input_epoch.GetValue(),
@@ -58,6 +74,19 @@ class SettingsControl:
 
     def checkData(self):
         error_list = []
+
+        if self.values['x_division_start'] > self.values['x_division_end']:
+            error_list.append('Początek przedziału X jest większy od końca!')
+
+        if self.values['y_division_start'] > self.values['y_division_end']:
+            error_list.append('Początek przedziału Y jest większy od końca!')
+
+        if self.values['z_division_start'] > self.values['z_division_end']:
+            error_list.append('Początek przedziału Z jest większy od końca!')
+
+        if self.settingsWindow.panel.radio_function_type_ch1.GetValue() == \
+                self.settingsWindow.panel.radio_function_type_ch2.GetValue():
+            error_list.append('Nie wybrano liczby osobników przechodzacej do następnej populacji!')
 
         if self.settingsWindow.panel.input_chromosome_precision.GetValue() == 0:
             error_list.append('Dokladność chromosomu nie może być 0!')
@@ -171,3 +200,35 @@ class SettingsControl:
 
     def getSaveFilePath(self):
         return self.values['save_file_path']
+
+    def getXdivisionStart(self):
+        return self.values['x_division_start']
+
+    def getXdivisionEnd(self):
+        return self.values['x_division_end']
+
+    def getYdivisionStart(self):
+        return self.values['y_division_start']
+
+    def getYdivisionEnd(self):
+        return self.values['y_division_end']
+
+    def getZdivisionStart(self):
+        return self.values['z_division_start']
+
+    def getZdivisionEnd(self):
+        return self.values['z_division_end']
+
+    def getTypeOfFunction(self):
+        if self.values['function_type_ch1']:
+            return VAL_MINIMALIZATION
+        elif self.values['function_type_ch2']:
+            return VAL_MAXIMALIZATION
+
+    def getTypeOfFunctionName(self):
+        if self.values['function_type_ch1']:
+            return 'Minimalizacja funkcji'
+        elif self.values['function_type_ch2']:
+            return 'Maksymalizacja funkcji'
+        else:
+            return 'Nie wybrano!'
