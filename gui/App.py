@@ -13,6 +13,10 @@ import matplotlib.pyplot as plt
 import math
 
 from gui.MainWindow.MainWindowGui import MainFrame
+from gui.Settings.SettingsConst import VAL_SELECTIONCHOICE_WHEEL, VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR, \
+    VAL_SELECTIONCHOICE_THEBEST_STR, VAL_OUTBREAD_ONE_POINT_STR, VAL_OUTBREAD_TWO_POINT_STR, \
+    VAL_OUTBREAD_TRIPLE_POINT_STR, VAl_MUTATION_ONE_POINT_STR, VAl_MUTATION_TWO_POINT_STR, VAL_MUTATION_MARGIN_STR
+
 
 class AppMain(wx.App):
     def __init__(self):
@@ -39,35 +43,52 @@ class AppMain(wx.App):
         mutate = MutationAlgorithm()
         #==========================================================
 
+        chromosome_prec = self.frame.panel.settingswindow.getChromosomePrecision()
         #jaki przedzial poczatkowy
         range_start = -10
         #jaki przedzial koncowy
         range_stop = 10
+        #populacja
+        population_size = self.frame.panel.settingswindow.getPopulation()
         #procent najlepszych
-        percent = 20
+        percent = self.frame.panel.settingswindow.getElityPercent()
+        #ilosc najlepszych
+        amount = self.frame.panel.settingswindow.getElityPercent()
         #ilosc generacji
-        generations = 200
+        generations = self.frame.panel.settingswindow.getEpoch()
         #prawdopodobienstwo skrzyzowania
-        pk = 0.01
+        pk = self.frame.panel.settingswindow.getPropabilityOutBread()
         #prawdopodobienstwo mutacji
-        pm = 0.03
+        pm = self.frame.panel.settingswindow.getPropabilityMutation()
+        #ilosc turniei
+        tour = self.frame.panel.settingswindow.getDivisionSelection()
+        #inwersja
+        inv = self.frame.panel.settingswindow.getPropabilityInversion()
+        #zapis pliku
+        path = self.frame.panel.settingswindow.getSaveFilePath()
 
-        B, dx = main.get_amount_bits(range_start,range_stop, self.frame.panel.settingswindow.getChromosomePrecision())
+        B, dx = main.get_amount_bits(range_start,range_stop, chromosome_prec)
         N = 2
 
-        pop = main.generate_population(self.frame.panel.settingswindow.getPopulation(), N, B)
-        evaluated_pop = main.evaluate_population(main.func, pop, N, B, range_start, self.frame.panel.settingswindow.getChromosomePrecision())
+        pop = main.generate_population(population_size, N, B)
+        evaluated_pop = main.evaluate_population(main.func, pop, N, B, range_start, chromosome_prec)
 
-        best_pop, best_value = best.get_best_max(pop, evaluated_pop, percent)
+        best_pop = []
+        best_value = []
+        if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_THEBEST_STR:
+            best_pop, best_value = best.get_best_max(pop, evaluated_pop, percent)
 
-        roulette_pop, roulette_value = roulette.roulette_max(pop, evaluated_pop, 40)
-        tour_max, tour_value = tournament.tournament_max(pop, evaluated_pop, 3)
+        if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR:
+            best_pop, best_value = tournament.tournament_max(pop, evaluated_pop, tour)
+
+        if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
+            best_pop, best_value = roulette.roulette_max(pop, evaluated_pop, percent)
 
         remain, remain_value = inver.elite_strategy(best_pop, np.array(best_value), 0, percent)
 
         # lista srednich
         list_mean = np.empty(0)
-        list_mean = np.append(list_mean, (sum(evaluated_pop) / self.frame.panel.settingswindow.getPopulation()))
+        list_mean = np.append(list_mean, (sum(evaluated_pop) / population_size))
 
         # lista wartosci
         list_values = np.empty(0)
@@ -94,25 +115,41 @@ class AppMain(wx.App):
         #===============================================================================
 
         for g in range(generations):
-            pop = roulette.roulette_max(pop, evaluated_pop, 40)
-            pop = cross.single_cross(pop, pk, length)
 
-            # new_pop_cross = cross.single_cross(best_p, 0.7, length)
-            # new_pop_cross2 = cross.double_cross(best_p, 0.7, length)
-            # new_pop_cross3 = cross.triple_cross(best_p, 0.7, length)
-            # another_cross = cross.homogeneous_cross(best_p, 0.7, length)
+            if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_THEBEST_STR:
+                pop, best_value = best.get_best_max(pop, evaluated_pop, percent)
 
-            pop = mutate.mutate_one_points(pop, pm)
+            if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR:
+                pop, best_value = tournament.tournament_max(pop, evaluated_pop, tour)
 
-            # edge = mutate.mutate_edge(new_pop_cross,0.7)
-            #
-            # one_point = mutate.mutate_one_points(new_pop_cross2, 0.7)
-            #
-            # two_point = mutate.mutate_two_points(new_pop_cross2, 0.7)
+            if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
+                pop, best_value = roulette.roulette_max(pop, evaluated_pop, percent)
 
-            pop = inver.inversion(pop, pk)
 
-            evaluated_pop = main.evaluate_population(main.func, pop, N, B, -2, dx)
+            if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_ONE_POINT_STR:
+                pop = cross.single_cross(pop, pk, length)
+
+            if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_TWO_POINT_STR:
+                pop = cross.double_cross(pop, pk, length)
+
+            if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_TRIPLE_POINT_STR:
+                pop = cross.triple_cross(pop, pk, length)
+
+            if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_TRIPLE_POINT_STR:
+                pop = cross.homogeneous_cross(pop, pk, length)
+
+            if self.frame.panel.settingswindow.getTypeSelection() == VAl_MUTATION_ONE_POINT_STR:
+                pop = mutate.mutate_one_points(pop, pm)
+
+            if self.frame.panel.settingswindow.getTypeSelection() == VAl_MUTATION_TWO_POINT_STR:
+                pop = mutate.mutate_two_points(pop, pm)
+
+            if self.frame.panel.settingswindow.getTypeSelection() == VAL_MUTATION_MARGIN_STR:
+                pop = mutate.mutate_edge(pop, pm)
+
+            pop = inver.inversion(pop, inv)
+
+            evaluated_pop = main.evaluate_population(main.func, pop, N, B, range_start, dx)
 
             list_mean = np.append(list_mean, (sum(evaluated_pop) / len(evaluated_pop)))
             list_values = np.append(list_values, evaluated_pop)
@@ -124,16 +161,16 @@ class AppMain(wx.App):
             result = math.sqrt(sumary / length_list_values)
             list_sd = np.append(list_sd, result)
 
-        print("liczba iteracji", g)
-        print("srednia",list_mean,"wartosci", list_values,"odchylenie", list_sd)
+        print("liczba iteracji", g+1)
+        # print("srednia",list_mean,"wartosci", list_values,"odchylenie", list_sd)
 
         self.refreshSetData()
-        self.drawPlot()
+        self.drawPlot(list_mean, list_values, list_sd, g+1)
 
     def refreshSetData(self):
         self.frame.panel.updateVarsBox()
 
-    def drawPlot(self):
+    def drawPlot(self, list_mean, list_values, list_sd, generation):
         X = np.arange(-15, 15, 0.55)
         Y = np.arange(-5, 5, 0.25)
         X, Y = np.meshgrid(X, Y)
@@ -141,16 +178,15 @@ class AppMain(wx.App):
         Z = np.sin(R)
 
         figure = plt.figure()
-        axes = figure.gca(projection='3d')
-        axes.plot_surface(X, Y, Z, cmap=cm.coolwarm,
-                               linewidth=0, antialiased=False)
+        ax = plt.axes(projection='3d')
+        ax.scatter(l[tt], k[tt], j[tt], zdir='z', s=20, c='blue', depthshade=True)
+        ax.set_title('Wykres')
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('z');
 
-        figure1 = plt.figure()
-        axes1 = figure1.gca(projection='3d')
-        axes1.plot_surface(X, X, Z, cmap=cm.coolwarm,
-                          linewidth=0, antialiased=False)
 
-        self.frame.panel.drawPlot([figure, figure1, figure1])
+        self.frame.panel.drawPlot([figure, figure, figure])
         self.frame.panel.updateTime(10)
 
 

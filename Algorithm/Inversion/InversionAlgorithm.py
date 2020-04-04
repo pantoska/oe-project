@@ -34,10 +34,12 @@ class InversionAlgorithm:
 
     def elite_strategy(self, pop, evaluated_pop, number=0, percent=0):
 
+        b = 0
+        best_value = 0
         if (percent != 0):
             b, best_value = best.Best.get_best_max(self, pop, evaluated_pop, percent)
         elif (number != 0):
-            per = number / len(pop) * 100
+            per = number // len(pop) * 100
             b, best_value = best.Best.get_best_max(self, pop, evaluated_pop, per)
 
         return b, best_value
