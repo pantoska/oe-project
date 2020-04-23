@@ -2,7 +2,7 @@ import numpy as np
 
 class Mutation:
 
-    def mutate(pop, pm, points):
+    def mutate(self, pop, pm, points):
         new_pop = np.array(pop, copy=True)
         for i in range(len(pop)):
             random = np.random.random()
@@ -25,7 +25,7 @@ class Mutation:
 
         return np.array(new_pop)
 
-    def mutate_edge(pop, pm):
+    def mutate_edge(self, pop, pm):
         new_pop = np.array(pop, copy=True)
         for i in range(len(pop)):
             random = np.random.random()

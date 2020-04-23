@@ -3,7 +3,7 @@ import random
 
 class Selection:
 
-    def get_best(pop, evaluated_pop, percent, max=False, min=False):
+    def get_best(self, pop, evaluated_pop, percent, max=False, min=False):
         copy_evaluated_pop = np.array(evaluated_pop, copy=True)
 
         best_individual = []
@@ -26,7 +26,7 @@ class Selection:
         return best_individual, best_value
 
 
-    def roulette(pop, evaluated_pop, percent, max=False, min=False):
+    def roulette(self, pop, evaluated_pop, percent, max=False, min=False):
 
         if np.ndarray.min(evaluated_pop) < 0:
             evaluated_pop = evaluated_pop + abs(np.ndarray.min(evaluated_pop)) + 1
@@ -55,7 +55,7 @@ class Selection:
         return best_individual
 
 
-    def tournament(pop, evaluated_pop, tournament_size, min=False, max=False):
+    def tournament(self, pop, evaluated_pop, tournament_size, min=False, max=False):
 
         copy_evaluated_pop = evaluated_pop[:]
 

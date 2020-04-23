@@ -2,7 +2,7 @@ import numpy as np
 
 class Inversion:
 
-    def inversion(pop, pk):
+    def inversion(self, pop, pk):
         new_pop = np.array(pop, copy=True)
         for i in range(0, len(pop)):
             rnd = np.random.random()
