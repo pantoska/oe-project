@@ -8,7 +8,6 @@ class InversionAlgorithm:
 
         new_pop = np.array(pop, copy=True)
         temp = np.array(pop, copy=True)
-        # shape[0] to ilosc rzedow, shape[1] to ilosc kolumn
         for i in range(0, pop.shape[0], 1):
             rnd = np.random.random()
             if (rnd < pk):

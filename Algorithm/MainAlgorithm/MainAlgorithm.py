@@ -13,10 +13,6 @@ from Algorithm.Mutation.MutationAlgorithm import MutationAlgorithm
 
 class MainAlgorithm:
 
-    # x - array table with x1, x2, another function for testing
-    def func(self, x):
-        # return 2 * x[0] ** 2 + 5
-        return 100 * np.sqrt(np.fabs(x[1] - 0.01 * (x[0] ** 2))) + 0.01 * np.fabs(x[0] + 10)
 
     # get number of bits needed to encode number from range [a,b] with step
     def get_amount_bits(self, a, b, step):
@@ -42,9 +38,4 @@ class MainAlgorithm:
             decode_ind[j] = sum(np.multiply(vector, temp[j])) * step + a
         return decode_ind
 
-    # calculate function on every individual
-    def evaluate_population(self, func, population, amount_variables, amount_of_bits, a, step):
-        evaluated_pop = np.ndarray(int(population.size / (amount_of_bits * amount_variables)))
-        for i in range(int(population.size / (amount_of_bits * amount_variables))):
-            evaluated_pop[i] = func(self.decode_individual(population[i], amount_variables, amount_of_bits, a, step))
-        return evaluated_pop
+
