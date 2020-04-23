@@ -206,3 +206,33 @@ class CrossAlgorithms:
             copy_pop = np.delete(copy_pop, 0, 0)
 
         return new_pop
+
+    def heuristic_cross(self, pop, probability):
+        new_pop = []
+        copy_pop = np.array(pop, copy=True)
+
+        while 0 < len(copy_pop):
+            if len(copy_pop) == 1:
+                new_pop.append(np.array(copy_pop[0]))
+                break
+
+            cross_index = np.random.randint(len(copy_pop))
+            while 0 == cross_index:
+                cross_index = np.random.randint(len(copy_pop))
+
+            k = np.random.random()
+
+            if probability > np.random.random():
+                if copy_pop[cross_index][0] > copy_pop[0][0]:
+                    new_x1 = k * (copy_pop[cross_index][0] - copy_pop[0][0]) + copy_pop[0][0]
+                    new_y1 = k * (copy_pop[cross_index][1] - copy_pop[0][1]) + copy_pop[0][1]
+
+                new_pop.append(np.array([new_x1, new_y1]))
+            else:
+                new_pop.append(np.array(copy_pop[0]))
+                new_pop.append(np.array(copy_pop[cross_index]))
+
+            copy_pop = np.delete(copy_pop, cross_index, 0)
+            copy_pop = np.delete(copy_pop, 0, 0)
+
+        return new_pop
