@@ -46,3 +46,11 @@ class MutationAlgorithm:
                 else:
                     new_pop[i][pop.shape[1] - 1] = 0
         return new_pop
+
+    def mutate_change_indeks(self, pop, probability):
+        new_pop = np.array(pop, copy=True)
+        for i in range(len(new_pop)):
+            if probability > np.random.random():
+                new_pop[i] = np.array([new_pop[i][1], new_pop[i][0]])
+
+        return new_pop
