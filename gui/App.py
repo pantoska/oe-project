@@ -10,7 +10,6 @@ from Algorithm.Cross.CrossAlgorithms import CrossAlgorithms
 from Algorithm.Mutation.MutationAlgorithm import MutationAlgorithm
 from Algorithm.MainAlgorithm.MainAlgorithm import MainAlgorithm
 import matplotlib.pyplot as plt
-import timeit
 import math
 
 from gui.MainWindow.MainWindowGui import MainFrame
@@ -35,6 +34,8 @@ class AppMain(wx.App):
 
     def SetData(self, event):
 
+        import time
+
         # ===================================CONSTRUCTORS==========
         main = MainAlgorithm()
         inver = InversionAlgorithm()
@@ -55,7 +56,7 @@ class AppMain(wx.App):
         # procent najlepszych
         percent = self.frame.panel.settingswindow.getElityPercent()
         # ilosc najlepszych
-        amount = self.frame.panel.settingswindow.getElityPercent()
+        amount = self.frame.panel.settingswindow.getElityAmount()
         # ilosc generacji
         generations = self.frame.panel.settingswindow.getEpoch()
         # prawdopodobienstwo skrzyzowania
@@ -69,7 +70,7 @@ class AppMain(wx.App):
         # zapis pliku
         path = self.frame.panel.settingswindow.getSaveFilePath()
 
-        start_all_program = timeit.timeit()
+        start_all_program =  time.time()
 
         B, dx = main.get_amount_bits(range_start, range_stop, chromosome_prec)
         N = 2
@@ -204,7 +205,7 @@ class AppMain(wx.App):
             result = math.sqrt(sumary / length_list_values)
             list_sd = np.append(list_sd, result)
 
-        stop_all_program = timeit.timeit()
+        stop_all_program =  time.time()
         time = abs(stop_all_program - start_all_program)
         self.frame.panel.updateTime(time)
         print(time)
