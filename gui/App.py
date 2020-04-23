@@ -45,29 +45,31 @@ class AppMain(wx.App):
         mutate = MutationAlgorithm()
         # ==========================================================
 
-        chromosome_prec = self.frame.panel.settingswindow.getChromosomePrecision()
+        settingsWindow = self.frame.panel.settingswindow
+
+        chromosome_prec = settingsWindow.getChromosomePrecision()
         # jaki przedzial poczatkowy
-        range_start = self.frame.panel.settingswindow.getXdivisionStart()
+        range_start = settingsWindow.getXdivisionStart()
         # jaki przedzial koncowy
-        range_stop = self.frame.panel.settingswindow.getXdivisionEnd()
+        range_stop = settingsWindow.getXdivisionEnd()
         # populacja
-        population_size = self.frame.panel.settingswindow.getPopulation()
+        population_size = settingsWindow.getPopulation()
         # procent najlepszych
-        percent = self.frame.panel.settingswindow.getElityPercent()
+        percent = settingsWindow.getElityPercent()
         # ilosc najlepszych
-        amount = self.frame.panel.settingswindow.getElityPercent()
+        amount = settingsWindow.getElityPercent()
         # ilosc generacji
-        generations = self.frame.panel.settingswindow.getEpoch()
+        generations = settingsWindow.getEpoch()
         # prawdopodobienstwo skrzyzowania
-        pk = self.frame.panel.settingswindow.getPropabilityOutBread()
+        pk = settingsWindow.getPropabilityOutBread()
         # prawdopodobienstwo mutacji
-        pm = self.frame.panel.settingswindow.getPropabilityMutation()
+        pm = settingsWindow.getPropabilityMutation()
         # ilosc turniei
-        tour = self.frame.panel.settingswindow.getDivisionSelection()
+        tour = settingsWindow.getDivisionSelection()
         # inwersja
-        inv = self.frame.panel.settingswindow.getPropabilityInversion()
+        inv = settingsWindow.getPropabilityInversion()
         # zapis pliku
-        path = self.frame.panel.settingswindow.getSaveFilePath()
+        path = settingsWindow.getSaveFilePath()
 
         start_all_program = timeit.timeit()
 
@@ -80,27 +82,26 @@ class AppMain(wx.App):
         best_pop = []
         best_value = []
 
-        if(self.frame.panel.settingswindow.getTypeOfFunction() == VAL_MAXIMALIZATION):
+        if settingsWindow.getTypeOfFunction() == VAL_MAXIMALIZATION:
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_THEBEST_STR:
+            if settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_THEBEST_STR:
                 best_pop, best_value = best.get_best_max(pop, evaluated_pop, percent)
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR:
+            elif settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR:
                 best_pop, best_value = tournament.tournament_max(pop, evaluated_pop, tour)
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
+            elif settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
                 best_pop = roulette.roulette_max(pop, evaluated_pop, percent)
         else:
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_THEBEST_STR:
+            if settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_THEBEST_STR:
                 best_pop, best_value = best.get_best_min(pop, evaluated_pop, percent)
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR:
+            elif settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR:
                 best_pop, best_value = tournament.tournament_min(pop, evaluated_pop, tour)
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
+            elif settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
                 best_pop = roulette.roulette_min(pop, evaluated_pop, percent)
-
 
         remain, remain_value = inver.elite_strategy(best_pop, np.array(best_value), 0, percent)
 
@@ -123,13 +124,13 @@ class AppMain(wx.App):
         result = math.sqrt(sumary / len(list_values))
         list_sd = np.append(list_sd, result)
 
-        if(self.frame.panel.settingswindow.getTypeOfFunction() == VAL_MAXIMALIZATION):
+        if settingsWindow.getTypeOfFunction() == VAL_MAXIMALIZATION:
 
             for i in range(0, len(remain), 1):
                 pop = np.delete(pop, np.argmax(evaluated_pop), 0)
                 evaluated_pop = np.delete(evaluated_pop, np.argmax(evaluated_pop), 0)
 
-        if(self.frame.panel.settingswindow.getTypeOfFunction() == VAL_MAXIMALIZATION):
+        if settingsWindow.getTypeOfFunction() == VAL_MAXIMALIZATION:
 
             for i in range(0, len(remain), 1):
                 pop = np.delete(pop, np.argmin(evaluated_pop), 0)
@@ -142,47 +143,47 @@ class AppMain(wx.App):
 
         for g in range(generations):
 
-            if (self.frame.panel.settingswindow.getTypeOfFunction() == VAL_MAXIMALIZATION):
+            if settingsWindow.getTypeOfFunction() == VAL_MAXIMALIZATION:
 
-                if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_THEBEST_STR:
+                if settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_THEBEST_STR:
                     pop, best_value = best.get_best_max(pop, evaluated_pop, percent)
 
-                if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR:
+                elif settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR:
                     pop, best_value = tournament.tournament_max(pop, evaluated_pop, tour)
 
-                if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
+                elif settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
                     pop = roulette.roulette_max(pop, evaluated_pop, percent)
 
             else:
 
-                if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_THEBEST_STR:
+                if settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_THEBEST_STR:
                     pop, best_value = best.get_best_min(pop, evaluated_pop, percent)
 
-                if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR:
+                elif settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR:
                     pop, best_value = tournament.tournament_min(pop, evaluated_pop, tour)
 
-                if self.frame.panel.settingswindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
+                elif settingsWindow.getTypeSelection() == VAL_SELECTIONCHOICE_WHEEL:
                     pop = roulette.roulette_min(pop, evaluated_pop, percent)
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_ONE_POINT_STR:
+            if settingsWindow.getTypeSelection() == VAL_OUTBREAD_ONE_POINT_STR:
                 pop = cross.single_cross(pop, pk, length)
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_TWO_POINT_STR:
+            if settingsWindow.getTypeSelection() == VAL_OUTBREAD_TWO_POINT_STR:
                 pop = cross.double_cross(pop, pk, length)
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_TRIPLE_POINT_STR:
+            if settingsWindow.getTypeSelection() == VAL_OUTBREAD_TRIPLE_POINT_STR:
                 pop = cross.triple_cross(pop, pk, length)
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_TRIPLE_POINT_STR:
+            if settingsWindow.getTypeSelection() == VAL_OUTBREAD_TRIPLE_POINT_STR:
                 pop = cross.homogeneous_cross(pop, pk, length)
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAl_MUTATION_ONE_POINT_STR:
+            if settingsWindow.getTypeSelection() == VAl_MUTATION_ONE_POINT_STR:
                 pop = mutate.mutate_one_points(pop, pm)
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAl_MUTATION_TWO_POINT_STR:
+            if settingsWindow.getTypeSelection() == VAl_MUTATION_TWO_POINT_STR:
                 pop = mutate.mutate_two_points(pop, pm)
 
-            if self.frame.panel.settingswindow.getTypeSelection() == VAL_MUTATION_MARGIN_STR:
+            if settingsWindow.getTypeSelection() == VAL_MUTATION_MARGIN_STR:
                 pop = mutate.mutate_edge(pop, pm)
 
             pop = inver.inversion(pop, inv)
@@ -192,7 +193,7 @@ class AppMain(wx.App):
             list_mean = np.append(list_mean, (sum(evaluated_pop) / len(evaluated_pop)))
             list_values = np.append(list_values, evaluated_pop)
 
-            if (self.frame.panel.settingswindow.getTypeOfFunction() == VAL_MAXIMALIZATION):
+            if settingsWindow.getTypeOfFunction() == VAL_MAXIMALIZATION:
                 self.frame.panel.setMinimumValue(max(list_mean), range_start, range_stop)
             else:
                 self.frame.panel.setMinimumValue(min(list_mean), range_start, range_stop)
@@ -209,7 +210,7 @@ class AppMain(wx.App):
         self.frame.panel.updateTime(time)
         print(time)
 
-        list_values = np.reshape(list_values, (generations+1,len(evaluated_pop)))
+        list_values = np.reshape(list_values, (generations + 1, len(evaluated_pop)))
 
         gen = []
         for i in range(generations + 1):
@@ -217,7 +218,7 @@ class AppMain(wx.App):
 
         self.refreshSetData()
         self.drawPlot(list_mean, list_values, list_sd, gen)
-        self.saveToFileArrays(list_mean,list_values,list_sd)
+        self.saveToFileArrays(list_mean, list_values, list_sd)
 
     def refreshSetData(self):
         self.frame.panel.updateVarsBox()
