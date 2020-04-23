@@ -3,8 +3,7 @@ import numpy as np
 
 class CrossAlgorithms:
 
-
-    def single_cross(self, pop, probability,times):
+    def single_cross(self, pop, probability, times):
 
         new_pop = np.array(pop, copy=True)
         temp = np.array(pop, copy=True)
@@ -173,5 +172,37 @@ class CrossAlgorithms:
                 new_pop = np.insert(new_pop, pop.shape[0], new_arr, 0)
             else:
                 new_pop = np.insert(new_pop, pop.shape[0], new_pop[np.random.randint(1, pop.shape[0])], 0)
+
+        return new_pop
+
+    def arythmetic_cross(self, pop, probability):
+        new_pop = []
+        copy_pop = np.array(pop, copy=True)
+
+        while len(new_pop) < len(pop):
+            if len(copy_pop) == 1:
+                new_pop.append(np.array(copy_pop[0]))
+                break
+
+            cross_index = np.random.randint(len(copy_pop))
+            while 0 == cross_index:
+                cross_index = np.random.randint(len(copy_pop))
+
+            k = np.random.random()
+
+            if probability > np.random.random():
+                new_x1 = k * copy_pop[0][0] + (1 - k) * copy_pop[cross_index][0]
+                new_x2 = k * copy_pop[cross_index][0] + (1 - k) * copy_pop[0][0]
+                new_y1 = k * copy_pop[0][1] + (1 - k) * copy_pop[cross_index][1]
+                new_y2 = k * copy_pop[cross_index][1] + (1 - k) * copy_pop[0][1]
+
+                new_pop.append(np.array([new_x1, new_y1]))
+                new_pop.append(np.array([new_x2, new_y2]))
+            else:
+                new_pop.append(np.array(copy_pop[0]))
+                new_pop.append(np.array(copy_pop[cross_index]))
+
+            copy_pop = np.delete(copy_pop, cross_index, 0)
+            copy_pop = np.delete(copy_pop, 0, 0)
 
         return new_pop
