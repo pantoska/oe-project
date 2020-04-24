@@ -131,8 +131,8 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
 
-        self.input_x_division_start = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
-        self.input_x_division_end = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
+        self.input_x_division_start = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-15, max=-5)
+        self.input_x_division_end = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-15, max=5)
         if 'x_division_start' in self.values:
             self.input_x_division_start.SetValue(self.values['x_division_start'])
 
@@ -150,8 +150,8 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
 
-        self.input_y_division_start = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
-        self.input_y_division_end = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
+        self.input_y_division_start = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-3, max=3)
+        self.input_y_division_end = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-3, max=3)
         if 'y_division_start' in self.values:
             self.input_y_division_start.SetValue(self.values['y_division_start'])
 
