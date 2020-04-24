@@ -17,6 +17,6 @@ class Inversion:
                     new_part.append(pop[i][j])
                 new_part.reverse()
 
-                new_pop[i] = pop[i][:sorted_pivots[0]] + new_part +  pop[i][sorted_pivots[1]:]
+                new_pop[i] = np.concatenate((pop[i][:sorted_pivots[0]],new_part,pop[i][sorted_pivots[1]:]))
 
         return np.array(new_pop)

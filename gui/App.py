@@ -81,7 +81,7 @@ class AppMain(wx.App):
         # procent najlepszych (do selekcji najlepszych)
         percent = self.frame.panel.settingswindow.getElityPercent()
         # ilosc turniei (do selekcji turniejowej)
-        tour = self.frame.panel.settingswindow.getDivisionSelection()
+        tour_size = self.frame.panel.settingswindow.getDivisionSelection()
 
         # ilosc najlepszych
         amount = self.frame.panel.settingswindow.getElityAmount()
@@ -120,15 +120,19 @@ class AppMain(wx.App):
         # inwersja
         inv = self.frame.panel.settingswindow.getPropabilityInversion()
 
-        best_value, time = Algorithm.run(range_start_x1, range_stop_x1, range_start_x2, range_stop_x2,
-                                         generations, population_size, chromosome_prec, max, min, percent,
-                                         best, roulette, tournament, tour, pk,cross_point, uniform_cross,
-                                         pm, edge_mutation, mutation_point, inv)
-        print(best_value, time)
+        # best_value, time = Algorithm.run(range_start_x1, range_stop_x1, range_start_x2, range_stop_x2,
+        #                                  generations, population_size, chromosome_prec, max, min, percent,
+        #                                  best, roulette, tournament, tour_size, pk,cross_point, uniform_cross,
+        #                                  pm, edge_mutation, mutation_point, inv)
+        # best_value, time = Algorithm.run(-10, 10, -10, 10,
+        #                                  100, 6, 0.01, True, False, 40,
+        #                                  True, False , False, 5, 0.8, 1, False,
+        #                                  0.6, False, 1, 0.8)
+        # print(best_value, time)
 
 
         # zapis pliku
-        path = self.frame.panel.settingswindow.getSaveFilePath()
+        # path = self.frame.panel.settingswindow.getSaveFilePath()
 
         # start_all_program =  time.time()
         #
@@ -276,10 +280,19 @@ class AppMain(wx.App):
         # for i in range(generations + 1):
         #     gen.append(i)
 
+        best_value, time, values, std_devs, min_values, max_values, avg_values, gen = Algorithm.run(Algorithm(), -10,
+                                                                                                    10, -10, 10,
+                                                                                                    100, 10, 0.01, True,
+                                                                                                    False, 40,
+                                                                                                    False, False, True,
+                                                                                                    2, 0.8, 3, False,
+                                                                                                    0.6, False, 1, 0.8)
+        print(best_value, time)
 
-        # self.refreshSetData()
-        # self.drawPlot(list_mean, list_values, list_sd, gen)
-        # self.saveToFileArrays(list_mean,list_values,list_sd)
+
+        self.refreshSetData()
+        self.drawPlot(avg_values, values, std_devs, gen)
+        self.saveToFileArrays(avg_values,values,std_devs)
 
     def refreshSetData(self):
         self.frame.panel.updateVarsBox()

@@ -4,11 +4,12 @@ from Algorithm.selection import Selection
 from Algorithm.cross import Cross
 from Algorithm.mutation import Mutation
 from Algorithm.inversion import Inversion
+from Algorithm.statistics import Statistics
 import numpy as np
 
 class Algorithm:
 
-    def run(x1_min, x1_max, x2_min, x2_max, generations, population_size, precision, max, min, percent_of_best,
+    def run(self, x1_min, x1_max, x2_min, x2_max, generations, population_size, precision, max, min, percent_of_best,
             best_selection, roulette_selection, tournament_selection,
             tournament_size, cross_probability, cross_points, uniform_cross, mutation_probability,
             edge_mutation, mutation_points, inversion_probability):
@@ -23,7 +24,6 @@ class Algorithm:
         x2_bits, x2_dx = Chromosome.get_amount_bits(Chromosome(), x2_min, x2_max, precision)
 
         population = Population.generate_population(Population(), population_size, x1_bits + x2_bits)
-        print(population)
 
         for i in range(0, generations):
 
@@ -31,15 +31,14 @@ class Algorithm:
             statistics.append(evaluated_pop)
 
             if best_selection:
-                best_individuals, best_value = Selection.get_best(Selection(), population, evaluated_pop, max, min, percent_of_best)
+                best_individuals, best_value = Selection.get_best(Selection(), population, evaluated_pop,percent_of_best, max, min )
             if roulette_selection:
-                best_individuals = Selection.roulette(Selection(), population, evaluated_pop, max, min,
-                                                      percent_of_best)
+                best_individuals = Selection.roulette(Selection(), population, evaluated_pop,percent_of_best, max, min)
             if tournament_selection:
                 best_individuals = Selection.tournament(Selection(), population, evaluated_pop, tournament_size, min, max)
 
             if(uniform_cross):
-                new_pop = Cross.uniform_cross(Cross(), best_individuals, cross_probability)
+                new_pop = Cross.uniform_cross(Cross(), best_individuals, population_size, cross_probability)
             else:
                 new_pop = Cross.cross(Cross(), best_individuals, population_size, cross_probability, cross_points)
 
@@ -58,7 +57,9 @@ class Algorithm:
         stop_time = time.time()
         time = abs(stop_time - start_time)
 
-        return best_value, time
+        values, std_devs, min_values, max_values, avg_values, gen = Statistics.generate_stats(Statistics(), statistics, generations)
+
+        return best_value, time, values, std_devs, min_values, max_values, avg_values, gen
 
     # def gen_statistics(self, statistics):
 

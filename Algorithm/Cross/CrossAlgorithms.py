@@ -3,7 +3,6 @@ import numpy as np
 
 class CrossAlgorithms:
 
-
     def single_cross(self, pop, probability,times):
 
         new_pop = np.array(pop, copy=True)
@@ -22,7 +21,7 @@ class CrossAlgorithms:
             rnd = np.random.random()
             if (rnd < probability):
                 pivot = np.random.randint(1, pop.shape[1] - 1)
-                new_arr = np.array(np.concatenate((pop[rnd1][:pivot], pop[rnd2][pivot:])))
+                new_arr = np.array(np.concatenate((pop[rnd1][:pivot[0]], pop[rnd2][pivot[0]:])))
                 new_pop = np.insert(new_pop, pop.shape[0], new_arr, 0)
             else:
                 new_pop = np.insert(new_pop, pop.shape[0], new_pop[pop.shape[0] - 1], 0)
@@ -34,15 +33,15 @@ class CrossAlgorithms:
         new_pop = np.array(pop, copy=True)
         temp = np.array(pop, copy=True)
 
-        for i in range(0, (pop.shape[0] // 2) + 1, 2):
+        for i in range(0, (len(pop) // 2) + 1, 2):
             rnd = np.random.random()
             if (rnd < probability):
-                first_pivot = np.random.randint(1, pop.shape[1] - 1)
-                second_pivot = np.random.randint(1, pop.shape[1] - 1)
+                first_pivot = np.random.randint(1, len(pop[0]) - 1)
+                second_pivot = np.random.randint(1, len(pop[0]) - 1)
 
                 if (first_pivot == second_pivot):
                     while (first_pivot == second_pivot):
-                        second_pivot = np.random.randint(1, pop.shape[1] - 1)
+                        second_pivot = np.random.randint(1, len(pop[0]) - 1)
 
                 max_pivot = max(first_pivot, second_pivot)
                 min_pivot = min(first_pivot, second_pivot)

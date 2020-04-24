@@ -16,4 +16,4 @@ class Population:
         for i in population:
             individual = Chromosome.decode_individual(Population(), i, x1_bits, x2_bits, x1_min, x2_min, x1_step, x2_step)
             evaluated_pop.append(Func.func(Func(), individual))
-        return np.array(evaluated_pop)
+        return evaluated_pop

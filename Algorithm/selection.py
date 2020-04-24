@@ -3,20 +3,21 @@ import random
 
 class Selection:
 
-    def get_best(self, pop, evaluated_pop, percent, max=False, min=False):
+    def get_best(self, pop, evaluated_pop, percent, max_func=False, min_func=False):
+
         copy_evaluated_pop = np.array(evaluated_pop, copy=True)
 
         best_individual = []
         best_value = []
 
-        for i in range(int(evaluated_pop.size * percent / 100)):
-            if max:
+        for i in range(int(len(evaluated_pop) * percent / 100)):
+            if max_func:
                 best = max(copy_evaluated_pop)
                 best_value.append(best)
 
                 best_individual.append(pop[np.argmax(copy_evaluated_pop)])
                 copy_evaluated_pop = np.delete(copy_evaluated_pop, np.argmax(copy_evaluated_pop))
-            if min:
+            if min_func:
                 best = min(copy_evaluated_pop)
                 best_value.append(best)
 
@@ -25,37 +26,35 @@ class Selection:
 
         return best_individual, best_value
 
+    def roulette(self, pop, evaluated_pop, percent, max_func=False, min_func=False):
 
-    def roulette(self, pop, evaluated_pop, percent, max=False, min=False):
+        if min(evaluated_pop) <= 0:
+            evaluated_pop = evaluated_pop + abs(min(evaluated_pop)) + 1
 
-        if np.ndarray.min(evaluated_pop) < 0:
-            evaluated_pop = evaluated_pop + abs(np.ndarray.min(evaluated_pop)) + 1
-
-        distribution = []
-        cumsum_pop = 0
-
-        if max:
+        if max_func:
             cumsum_pop = np.cumsum(evaluated_pop)
-            distribution.append(evaluated_pop[0]/cumsum_pop)
-        if min:
+        if min_func:
             cumsum_pop = np.cumsum(1 / evaluated_pop)
-            distribution.append(1/evaluated_pop[0]/cumsum_pop)
 
-        best_individual = []
+        cumsum_pop = np.insert(cumsum_pop, 0, 0)
 
-        for i in range(1, len(evaluated_pop)):
-            if max:
-                distribution.append((evaluated_pop[i]/cumsum_pop)+(distribution[i - 1]))
-            if min:
-                distribution.append((1/evaluated_pop[i]/cumsum_pop)+(distribution[i - 1]))
+        new_population = []
+        i = 1
+        counter = 0
+        rand = np.random.random_sample()
 
-        for i in range(0, int(len(evaluated_pop) * percent / 100)):
-            best_individual.append(pop[np.where(distribution >= np.random.random())[0][0]])
+        while counter < int(len(evaluated_pop) * percent / 100):
+            if (cumsum_pop[i - 1] / cumsum_pop[cumsum_pop.size - 1]) <= rand < (
+                    cumsum_pop[i] / cumsum_pop[cumsum_pop.size - 1]):
+                new_population.append(np.array(pop[i - 1]))
+                counter = counter + 1
+                i = 1
+                rand = np.random.random_sample()
+            else:
+                i = i + 1
+        return new_population
 
-        return best_individual
-
-
-    def tournament(self, pop, evaluated_pop, tournament_size, min=False, max=False):
+    def tournament(self, pop, evaluated_pop, tournament_size, min_func=False, max_func=False):
 
         copy_evaluated_pop = evaluated_pop[:]
 
@@ -76,17 +75,19 @@ class Selection:
         if (len(copy_evaluated_pop) <= tournament_size):
             tour.append(copy_evaluated_pop)
 
+        new_pop = []
+
         # selection the best from every tour
         best_individuals = []
         best_value_in_division = 0
         for el in tour:
-            if max:
+            if max_func:
                 best_value_in_division = max(el)
-                # new_pop.append(pop[np.argmax(el)])
-            if min:
+                new_pop.append(pop[np.argmax(el)])
+            if min_func:
                 best_value_in_division = min(el)
-                # new_pop.append(pop[np.argmin(el)])
+                new_pop.append(pop[np.argmin(el)])
 
             best_individuals.append(best_value_in_division)
 
-        return best_individuals
+        return new_pop
