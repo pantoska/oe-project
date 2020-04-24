@@ -17,6 +17,6 @@ class Statistics:
             std_devs.append(np.around(np.std(el)))
             min_values.append(np.around(np.min(el)))
             max_values.append(np.around(np.max(el)))
-            avg_values.append(np.around(np.around(el)))
+            avg_values.append(np.around(np.average(el)))
 
         return values, std_devs, min_values, max_values, avg_values, gen

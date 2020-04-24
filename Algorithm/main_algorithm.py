@@ -6,6 +6,7 @@ from Algorithm.mutation import Mutation
 from Algorithm.inversion import Inversion
 from Algorithm.statistics import Statistics
 import numpy as np
+import sys
 
 class Algorithm:
 
@@ -17,6 +18,11 @@ class Algorithm:
         import time
 
         statistics = []
+        current_best_value = 0
+        current_best_value_max = 0
+        best_individuals = []
+        current_best_value_min = sys.maxsize
+
 
         start_time = time.time()
 
@@ -50,18 +56,19 @@ class Algorithm:
             population = Inversion.inversion(Inversion(), new_pop_mut, inversion_probability)
 
             if max:
-                best_value = np.max(Population.evaluate_population(Population(), population, x1_bits, x2_bits, x1_min, x2_min, x1_dx, x2_dx))
+                if np.max(Population.evaluate_population(Population(), population, x1_bits, x2_bits, x1_min, x2_min, x1_dx, x2_dx)) > current_best_value_max:
+                    current_best_value = np.max(Population.evaluate_population(Population(), population, x1_bits, x2_bits, x1_min, x2_min, x1_dx, x2_dx))
             else:
-                best_value = np.min(Population.evaluate_population(Population(), population, x1_bits, x2_bits, x1_min, x2_min, x1_dx, x2_dx))
+                if np.min(Population.evaluate_population(Population(), population, x1_bits, x2_bits, x1_min, x2_min, x1_dx, x2_dx)) < current_best_value_min:
+                    current_best_value = np.min(Population.evaluate_population(Population(), population, x1_bits, x2_bits, x1_min, x2_min, x1_dx, x2_dx))
 
         stop_time = time.time()
         time = abs(stop_time - start_time)
 
         values, std_devs, min_values, max_values, avg_values, gen = Statistics.generate_stats(Statistics(), statistics, generations)
 
-        return best_value, time, values, std_devs, min_values, max_values, avg_values, gen
+        return current_best_value, time, values, std_devs, min_values, max_values, avg_values, gen
 
-    # def gen_statistics(self, statistics):
 
 
 

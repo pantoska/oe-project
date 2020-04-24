@@ -28,13 +28,17 @@ class Selection:
 
     def roulette(self, pop, evaluated_pop, percent, max_func=False, min_func=False):
 
+        cumsum_pop = []
         if min(evaluated_pop) <= 0:
             evaluated_pop = evaluated_pop + abs(min(evaluated_pop)) + 1
 
         if max_func:
             cumsum_pop = np.cumsum(evaluated_pop)
         if min_func:
-            cumsum_pop = np.cumsum(1 / evaluated_pop)
+            distributon = []
+            for i in evaluated_pop:
+                distributon.append(1 / i)
+            cumsum_pop = np.cumsum(distributon)
 
         cumsum_pop = np.insert(cumsum_pop, 0, 0)
 
