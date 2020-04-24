@@ -131,8 +131,8 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
 
-        self.input_x_division_start = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
-        self.input_x_division_end = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
+        self.input_x_division_start = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-15, max=-5)
+        self.input_x_division_end = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-15, max=5)
         if 'x_division_start' in self.values:
             self.input_x_division_start.SetValue(self.values['x_division_start'])
 
@@ -150,8 +150,8 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
 
-        self.input_y_division_start = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
-        self.input_y_division_end = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-100000000, max=100000000)
+        self.input_y_division_start = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-3, max=3)
+        self.input_y_division_end = wx.SpinCtrlDouble(self, wx.ID_ANY, min=-3, max=3)
         if 'y_division_start' in self.values:
             self.input_y_division_start.SetValue(self.values['y_division_start'])
 
@@ -256,11 +256,13 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         inputlabel = wx.StaticText(self, wx.ID_ANY, "Krzyżowanie:",
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
-        self.input_type_outbread = wx.Choice(self, choices=["", "", "", ""])
+        self.input_type_outbread = wx.Choice(self, choices=["", "", "", "", "", ""])
         self.input_type_outbread.SetString(VAL_OUTBREAD_ONE_POINT, VAL_OUTBREAD_ONE_POINT_STR)
         self.input_type_outbread.SetString(VAL_OUTBREAD_TWO_POINT, VAL_OUTBREAD_TWO_POINT_STR)
         self.input_type_outbread.SetString(VAL_OUTBREAD_TRIPLE_POINT, VAL_OUTBREAD_TRIPLE_POINT_STR)
         self.input_type_outbread.SetString(VAL_OUTBREAD_HOMOGENEOUS, VAL_OUTBREAD_HOMOGENEOUS_STR)
+        self.input_type_outbread.SetString(VAL_OUTBREAD_ARITHMETIC, VAL_OUTBREAD_ARITHMETIC_STR)
+        self.input_type_outbread.SetString(VAL_OUTBREAD_HEURISTIC, VAL_OUTBREAD_HEURISTIC_STR)
 
         if 'type_outbread' in self.values:
             self.input_type_outbread.SetSelection(self.values['type_outbread'])
@@ -287,10 +289,12 @@ class SettingsPanel(wx.lib.scrolledpanel.ScrolledPanel):
         inputlabel = wx.StaticText(self, wx.ID_ANY, "Mutacja:",
                                    size=(SETTINGS_LABEL_MIN_WIDTH, SETTINGS_LABEL_HEIGHT),
                                    style=wx.ST_NO_AUTORESIZE)
-        self.input_type_margin_mutation = wx.Choice(self, choices=["", "", ""])
+        self.input_type_margin_mutation = wx.Choice(self, choices=["", "", "", "", ""])
         self.input_type_margin_mutation.SetString(VAl_MUTATION_ONE_POINT, VAl_MUTATION_ONE_POINT_STR)
         self.input_type_margin_mutation.SetString(VAl_MUTATION_TWO_POINT, VAl_MUTATION_TWO_POINT_STR)
         self.input_type_margin_mutation.SetString(VAL_MUTATION_MARGIN, VAL_MUTATION_MARGIN_STR)
+        self.input_type_margin_mutation.SetString(VAl_MUTATION_EVEN, VAl_MUTATION_EVEN_STR)
+        self.input_type_margin_mutation.SetString(VAl_MUTATION_CH_INDEX, VAl_MUTATION_CH_INDEX_STR)
 
         if 'type_mutation' in self.values:
             self.input_type_margin_mutation.SetSelection(self.values['type_mutation'])
