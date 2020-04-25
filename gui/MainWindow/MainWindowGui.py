@@ -198,3 +198,7 @@ class MainPanel(wx.Panel):
     def setMinimumValue(self, value, x, y):
         self.minimumValueText.SetLabel('Wartość minimalna funkcji: ' + str(value) + ' osiągnięta w punkcie [' +
                                        str(x) + ', ' + str(y) + ']')
+
+    def setMaximumValue(self, value, x, y):
+        self.minimumValueText.SetLabel('Wartość maksymalna funkcji: ' + str(value) + ' osiągnięta w punkcie [' +
+                                       str(x) + ', ' + str(y) + ']')

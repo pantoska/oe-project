@@ -162,6 +162,8 @@ class SettingsControl:
             return VAL_OUTBREAD_TRIPLE_POINT_STR
         elif self.values['type_outbread'] == VAL_OUTBREAD_HOMOGENEOUS:
             return VAL_OUTBREAD_HOMOGENEOUS_STR
+        elif self.values['type_outbread'] == VAL_OUTBREAD_ARITHMETIC:
+            return VAL_OUTBREAD_ARITHMETIC_STR
 
     def getPropabilityOutBread(self):
         return self.values['propability_outbread']
@@ -178,6 +180,10 @@ class SettingsControl:
             return VAl_MUTATION_TWO_POINT_STR
         elif self.values['type_mutation'] == VAL_MUTATION_MARGIN:
             return VAL_MUTATION_MARGIN_STR
+        elif self.values['type_mutation'] == VAl_MUTATION_EVEN:
+            return VAl_MUTATION_EVEN_STR
+        elif self.values['type_mutation'] == VAl_MUTATION_CH_INDEX:
+            return VAl_MUTATION_CH_INDEX_STR
 
     def getPropabilityMutation(self):
         return self.values['propability_mutation']
