@@ -1,9 +1,7 @@
-from algorithm.chromosome import Chromosome
 from algorithm.population import Population
 from algorithm.selection import Selection
 from algorithm.cross import Cross
 from algorithm.mutation import Mutation
-from algorithm.inversion import Inversion
 from algorithm.statistics import Statistics
 import numpy as np
 import sys
@@ -11,10 +9,10 @@ import sys
 
 class Algorithm:
 
-    def run(self, x1_min, x1_max, x2_min, x2_max, generations, population_size, precision, max, min, percent_of_best,
+    def run(self, x1_min, x1_max, x2_min, x2_max, generations, population_size, max, min, percent_of_best,
             best_selection, roulette_selection, tournament_selection,
-            tournament_size, cross_probability, cross_points, uniform_cross, mutation_probability,
-            edge_mutation, mutation_points, inversion_probability):
+            tournament_size, cross_probability, cross_points, uniform_cross,arithmetic_cross,heuristic_cross, mutation_probability,
+            edge_mutation, mutation_points, mutate_change_index, mutate_even):
 
         import time
 
@@ -26,15 +24,11 @@ class Algorithm:
 
         start_time = time.time()
 
-        x1_bits, x1_dx = Chromosome.get_amount_bits(Chromosome(), x1_min, x1_max, precision)
-        x2_bits, x2_dx = Chromosome.get_amount_bits(Chromosome(), x2_min, x2_max, precision)
-
-        population = Population.generate_population(Population(), population_size, x1_bits + x2_bits)
+        population = Population.generate_population(Population(), population_size, x1_min, x1_max, x2_min, x2_max )
 
         for i in range(0, generations):
 
-            evaluated_pop = Population.evaluate_population(Population(), population, x1_bits, x2_bits, x1_min, x2_min,
-                                                           x1_dx, x2_dx)
+            evaluated_pop = Population.evaluate_population(Population(), population)
             statistics.append(evaluated_pop)
 
             if best_selection:
@@ -48,31 +42,29 @@ class Algorithm:
 
             if (uniform_cross):
                 new_pop = Cross.uniform_cross(Cross(), best_individuals, population_size, cross_probability)
+            elif (arithmetic_cross):
+                new_pop = Cross.arithmetic_cross(Cross(), best_individuals, cross_probability)
+            elif (heuristic_cross):
+                new_pop = Cross.heuristic_cross(Cross(), best_individuals, cross_probability)
             else:
                 new_pop = Cross.cross(Cross(), best_individuals, population_size, cross_probability, cross_points)
 
             if (edge_mutation):
-                new_pop_mut = Mutation.mutate_edge(Mutation(), new_pop, mutation_probability)
+                population = Mutation.mutate_edge(Mutation(), new_pop, mutation_probability)
+            elif mutate_change_index:
+                population = Mutation.mutate_change_index(Mutation(), new_pop, mutation_probability)
+            elif mutate_even:
+                population = Mutation.mutate_even(Mutation(), new_pop, mutation_probability, x1_min, x1_max, x2_min, x2_max)
             else:
-                new_pop_mut = Mutation.mutate(Mutation(), new_pop, mutation_probability, mutation_points)
-
-            population = Inversion.inversion(Inversion(), new_pop_mut, inversion_probability)
+                population = Mutation.mutate(Mutation(), new_pop, mutation_probability, mutation_points)
 
             if max:
-                if np.max(Population.evaluate_population(Population(), population, x1_bits, x2_bits, x1_min, x2_min,
-                                                         x1_dx, x2_dx)) > current_best_value_max:
-                    best_gen = Population.evaluate_population(Population(), population, x1_bits, x2_bits, x1_min,
-                                                              x2_min,
-                                                              x1_dx, x2_dx)
-
+                if np.max(Population.evaluate_population(Population(), population)) > current_best_value_max:
+                    best_gen = Population.evaluate_population(Population(), population)
                     current_best_value = np.max(best_gen)
             else:
-                if np.min(Population.evaluate_population(Population(), population, x1_bits, x2_bits, x1_min, x2_min,
-                                                         x1_dx, x2_dx)) < current_best_value_min:
-                    best_gen = Population.evaluate_population(Population(), population, x1_bits, x2_bits, x1_min,
-                                                              x2_min,
-                                                              x1_dx, x2_dx)
-
+                if np.min(Population.evaluate_population(Population(), population)) < current_best_value_min:
+                    best_gen = Population.evaluate_population(Population(), population)
                     current_best_value = np.min(best_gen)
 
         stop_time = time.time()

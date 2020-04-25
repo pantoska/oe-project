@@ -145,7 +145,7 @@ class MainPanel(wx.Panel):
         division_selection = wx.StaticText(self, wx.ID_ANY, 'Liczba przedziałów: ' +
                                            str(self.settingswindow.getDivisionSelection()))
         type_outbread = wx.StaticText(self, wx.ID_ANY, 'Krzyżowanie: ' +
-                                      self.settingswindow.getTypeOutBreadName())
+                                      str(self.settingswindow.getTypeOutBreadName()))
         propability_outbread = wx.StaticText(self, wx.ID_ANY, 'Prawdopodobieństwo krzyżowania: ' +
                                              str(self.settingswindow.getPropabilityOutBread()))
 

@@ -35,3 +35,24 @@ class Mutation:
                 else:
                     new_pop[i][len(pop[0]) - 1] = 0
         return np.array(new_pop)
+
+    def mutate_change_index(self, pop, probability):
+        new_pop = np.array(pop, copy=True)
+        for i in range(len(new_pop)):
+            if probability > np.random.random():
+                new_pop[i] = np.array([new_pop[i][1], new_pop[i][0]])
+
+        return new_pop
+
+    def mutate_even(self, pop, probability, min_x1, max_x1, min_x2, max_x2):
+        new_pop = np.array(pop, copy=True)
+        half_probability = probability / 2
+        for i in range(len(new_pop)):
+            random = np.random.random()
+            if probability > random:
+                if half_probability > random:
+                    new_pop[i] = np.array([np.random.uniform(min_x1, max_x1), new_pop[i][1]])
+                else:
+                    new_pop[i] = np.array([new_pop[i][0], np.random.uniform(min_x2, max_x2)])
+
+        return new_pop

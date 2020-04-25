@@ -9,7 +9,8 @@ from gui.MainWindow.MainWindowGui import MainFrame
 from gui.Settings.SettingsConst import VAL_SELECTIONCHOICE_WHEEL, VAL_SELECTIONCHOICE_TURNAMENT_SELECTION_STR, \
     VAL_SELECTIONCHOICE_THEBEST_STR, VAL_OUTBREAD_ONE_POINT_STR, VAL_OUTBREAD_TWO_POINT_STR, \
     VAL_OUTBREAD_TRIPLE_POINT_STR, VAl_MUTATION_ONE_POINT_STR, VAl_MUTATION_TWO_POINT_STR, VAL_MUTATION_MARGIN_STR, \
-    VAL_MINIMALIZATION, VAL_MAXIMALIZATION, VAL_OUTBREAD_HOMOGENEOUS, VAL_SELECTIONCHOICE_WHEEL_STR
+    VAL_MINIMALIZATION, VAL_MAXIMALIZATION, VAL_OUTBREAD_HOMOGENEOUS, VAL_SELECTIONCHOICE_WHEEL_STR, \
+    VAL_OUTBREAD_ARITHMETIC, VAL_OUTBREAD_HEURISTIC, VAl_MUTATION_CH_INDEX, VAl_MUTATION_EVEN
 
 
 class AppMain(wx.App):
@@ -37,14 +38,16 @@ class AppMain(wx.App):
         roulette_selection = False
         tournament_selection = False
 
+        arithmetic_cross = False
+        heuristic_cross = False
+        mutate_change_index = False
+        mutate_even = False
+
         # funkcja optymalizacji
         if (self.frame.panel.settingswindow.getTypeOfFunction() == VAL_MAXIMALIZATION):
             max_func = True
         if (self.frame.panel.settingswindow.getTypeOfFunction() == VAL_MINIMALIZATION):
             min_func = True
-
-        # precyzja chromosomu
-        chromosome_prec = self.frame.panel.settingswindow.getChromosomePrecision()
 
         # jaki przedzial poczatkowy x1
         range_start_x1 = self.frame.panel.settingswindow.getXdivisionStart()
@@ -89,6 +92,12 @@ class AppMain(wx.App):
         if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_HOMOGENEOUS:
             uniform_cross = True
 
+        if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_ARITHMETIC:
+            arithmetic_cross = True
+        if self.frame.panel.settingswindow.getTypeSelection() == VAL_OUTBREAD_HEURISTIC:
+            heuristic_cross = True
+
+
         # prawdopodobienstwo mutacji
         pm = self.frame.panel.settingswindow.getPropabilityMutation()
 
@@ -99,11 +108,37 @@ class AppMain(wx.App):
         if self.frame.panel.settingswindow.getTypeSelection() == VAL_MUTATION_MARGIN_STR:
             edge_mutation = True
 
+        if self.frame.panel.settingswindow.getTypeSelection() == VAl_MUTATION_CH_INDEX:
+            mutate_change_index = True
+        if self.frame.panel.settingswindow.getTypeSelection() == VAl_MUTATION_EVEN:
+            mutate_even = True
+
         # inwersja
         inv = self.frame.panel.settingswindow.getPropabilityInversion()
 
         # zapis pliku
         path = self.frame.panel.settingswindow.getSaveFilePath()
+
+        print(    range_start_x1,
+                                                                                                    range_stop_x1,
+                                                                                                    range_start_x2,
+                                                                                                    range_stop_x2,
+                                                                                                    generations,
+                                                                                                    population_size,
+                                                                                                    max_func, min_func,
+                                                                                                    percent,
+                                                                                                    best_selection, roulette_selection,
+                                                                                                    tournament_selection,
+                                                                                                    tour_size, pk,
+                                                                                                    cross_point,
+                                                                                                    uniform_cross,
+                                                                                                    arithmetic_cross,
+                                                                                                    heuristic_cross,
+                                                                                                    pm, edge_mutation,
+                                                                                                    mutation_point,
+                                                                                                    mutate_change_index,
+                                                                                                    mutate_even,
+                                                                                                    inv)
 
         best_value, time, values, std_devs, min_values, max_values, avg_values, gen, index_min, index_max = Algorithm.run(Algorithm(),
                                                                                                     range_start_x1,
@@ -112,7 +147,6 @@ class AppMain(wx.App):
                                                                                                     range_stop_x2,
                                                                                                     generations,
                                                                                                     population_size,
-                                                                                                    chromosome_prec,
                                                                                                     max_func, min_func,
                                                                                                     percent,
                                                                                                     best_selection, roulette_selection,
@@ -120,16 +154,15 @@ class AppMain(wx.App):
                                                                                                     tour_size, pk,
                                                                                                     cross_point,
                                                                                                     uniform_cross,
+                                                                                                    arithmetic_cross,
+                                                                                                    heuristic_cross,
                                                                                                     pm, edge_mutation,
-                                                                                                    mutation_point, inv)
+                                                                                                    mutation_point,
+                                                                                                    mutate_change_index,
+                                                                                                    mutate_even
+                                                                                                    )
 
-        # print(range_start_x1,
-        #       range_stop_x1, range_start_x2, range_stop_x2,
-        #       generations, population_size, chromosome_prec,
-        #       max_func, min_func, percent,
-        #       best, roulette, tournament,
-        #       tour_size, pk, cross_point, uniform_cross,
-        #       pm, edge_mutation, mutation_point, inv)
+
 
         self.frame.panel.updateTime(time)
 
