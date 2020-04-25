@@ -1,6 +1,6 @@
 import numpy as np
-from Algorithm.chromosome import Chromosome
-from Algorithm.function import Func
+from algorithm.chromosome import Chromosome
+from algorithm.function import Func
 
 
 class Population:

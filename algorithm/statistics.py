@@ -2,7 +2,7 @@ import numpy as np
 
 class Statistics:
 
-    def generate_stats(self, evaluated_pop, generations):
+    def generate_stats(self, evaluated_pop):
 
         values =[]
         std_devs = []
@@ -19,4 +19,8 @@ class Statistics:
             max_values.append(np.around(np.max(el)))
             avg_values.append(np.around(np.average(el)))
 
-        return values, std_devs, min_values, max_values, avg_values, gen
+        index_min = min_values.index(min(min_values))
+        index_max = max_values.index(max(max_values))
+
+
+        return values, std_devs, min_values, max_values, avg_values, gen, index_min, index_max
