@@ -134,9 +134,9 @@ class AppMain(wx.App):
         self.frame.panel.updateTime(time)
 
         if self.frame.panel.settingswindow.getTypeOfFunction() == VAL_MAXIMALIZATION:
-            self.frame.panel.setMaximumValue(max(max_values), min(range_start_x1,range_start_x2), max(range_stop_x1,range_stop_x2), index_max)
+            self.frame.panel.setMaximumValue(max(max_values), index_max)
         elif self.frame.panel.settingswindow.getTypeOfFunction() == VAL_MINIMALIZATION:
-            self.frame.panel.setMinimumValue(min(min_values), min(range_start_x1,range_start_x2), max(range_stop_x1,range_stop_x2), index_min)
+            self.frame.panel.setMinimumValue(min(min_values), index_min)
 
         self.refreshSetData()
         if max_func:
